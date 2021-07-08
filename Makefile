@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -Ilibs/irrKlang-64bit-1.6.0/include -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I. -I/usr/lib64/qt5/mkspecs/linux-g++
+INCPATH       = -I. -I-I/usr/lib -Ilibs/irrKlang-64bit-1.6.0/plugins/ikpMP3 -Ilibs/irrKlang-64bit-1.6.0/include -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I. -I/usr/lib64/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib64/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -766,7 +766,7 @@ moc_mainwindow.cpp: mainwindow.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_IAudioRecorder.h \
 		moc_predefs.h \
 		/usr/lib64/qt5/bin/moc
-	/usr/lib64/qt5/bin/moc $(DEFINES) --include /home/crisco/temp/SlowDown/moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/crisco/temp/SlowDown -I/home/crisco/temp/SlowDown/libs/irrKlang-64bit-1.6.0/include -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10 -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib64/qt5/bin/moc $(DEFINES) --include /home/crisco/temp/SlowDown/moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/crisco/temp/SlowDown -I/home/crisco/temp/SlowDown/-I/usr/lib -I/home/crisco/temp/SlowDown/libs/irrKlang-64bit-1.6.0/plugins/ikpMP3 -I/home/crisco/temp/SlowDown/libs/irrKlang-64bit-1.6.0/include -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10 -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed -I/usr/include mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:

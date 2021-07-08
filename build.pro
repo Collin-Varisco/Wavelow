@@ -5,5 +5,7 @@ SOURCES = main.cpp mainwindow.cpp
 TARGET = slowdown
 
 LIBS += -L$$PWD/libs/irrKlang-64bit-1.6.0/bin/linux-gcc-64/ -lIrrKlang
+INCLUDEPATH += -I/usr/lib
+INCLUDEPATH += $$PWD/libs/irrKlang-64bit-1.6.0/plugins/ikpMP3
 INCLUDEPATH += $$PWD/libs/irrKlang-64bit-1.6.0/include
 DEPENDPATH += $$PWD/libs/irrKlang-64bit-1.6.0/include

@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+#include <QLabel>
 using namespace irrklang;
 
 
@@ -31,12 +32,17 @@ private slots:
   void getMusicDirectory();
   void shuffleSong();
   void play();
+  void speedUp();
+  void slowDown();
 private:
   QWidget *window;
+  QLabel *speed;
   QPushButton *playButton;
   QPushButton *pauseButton;
   QPushButton *selectionButton;
   QPushButton *shuffleButton;
+  QPushButton *faster;
+  QPushButton *slower;
   QGridLayout *layout;
 };
 #endif // MAINWINDOW_H
