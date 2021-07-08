@@ -1,8 +1,11 @@
-#include "mainwindow.h"
+#include "stretchplay.h"
 #include <QApplication>
-int main(int argc, char *argv[])
-{
+#include <QFrame>
+int main(int argc, char *argv[]){
 	QApplication app(argc, argv);
-	MainWindow win;
-	return app.exec();
+	QFrame *display = new QFrame;
+	Ui::PlaybackDisplay u;
+	u.setupUi(display);
+	display->show();
+	app.exec();
 }

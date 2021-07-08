@@ -1,8 +1,9 @@
 QT += core gui
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-HEADERS = mainwindow.h
-SOURCES = main.cpp mainwindow.cpp
-TARGET = slowdown
+greaterThan(QT_MAJOR_VERSION, 4) QT += widgets
+FORMS = stretchplay.ui
+HEADERS = stretchplay.h
+SOURCES = main.cpp
+TARGET = stretchplay
 
 LIBS += -L$$PWD/libs/irrKlang-64bit-1.6.0/bin/linux-gcc-64/ -lIrrKlang
 INCLUDEPATH += -I/usr/lib
