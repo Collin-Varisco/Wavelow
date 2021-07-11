@@ -17,7 +17,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QToolButton>
-#include <phonon/volumeslider.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -27,7 +26,6 @@ public:
     QLabel *CurrentSongDisplay;
     QSlider *SpeedSlider;
     QLabel *label_2;
-    Phonon::VolumeSlider *volumeSlider;
     QPushButton *playButton;
     QToolButton *FileDialogButton;
     QLabel *OpenMusicLabel;
@@ -35,7 +33,7 @@ public:
     QPushButton *playButton_2;
     QPushButton *playButton_3;
 
-    void setupUi(QFrame *PlaybackDisplay)
+    void setupUi(QWidget *PlaybackDisplay)
     {
         if (PlaybackDisplay->objectName().isEmpty())
             PlaybackDisplay->setObjectName(QString::fromUtf8("PlaybackDisplay"));
@@ -56,11 +54,6 @@ public:
         label_2 = new QLabel(PlaybackDisplay);
         label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setGeometry(QRect(30, 440, 151, 22));
-        volumeSlider = new Phonon::VolumeSlider(PlaybackDisplay);
-        volumeSlider->setObjectName(QString::fromUtf8("volumeSlider"));
-        volumeSlider->setGeometry(QRect(500, 420, 110, 16));
-        volumeSlider->setStyleSheet(QString::fromUtf8("background-color: #efefef;"));
-        volumeSlider->setIconSize(QSize(10, 10));
         playButton = new QPushButton(PlaybackDisplay);
         playButton->setObjectName(QString::fromUtf8("playButton"));
         playButton->setGeometry(QRect(290, 400, 50, 50));
@@ -92,7 +85,7 @@ public:
         QMetaObject::connectSlotsByName(PlaybackDisplay);
     } // setupUi
 
-    void retranslateUi(QFrame *PlaybackDisplay)
+    void retranslateUi(QWidget *PlaybackDisplay)
     {
         PlaybackDisplay->setWindowTitle(QCoreApplication::translate("PlaybackDisplay", "Frame", nullptr));
         CurrentSongDisplay->setText(QCoreApplication::translate("PlaybackDisplay", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">Currently Playing</span></p></body></html>", nullptr));

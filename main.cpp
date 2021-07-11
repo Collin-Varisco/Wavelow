@@ -1,11 +1,10 @@
 #include "stretchplay.h"
-#include <QApplication>
+#include <QtGui>
 #include <QFrame>
+#include <QApplication>
 int main(int argc, char *argv[]){
 	QApplication app(argc, argv);
-	QFrame *display = new QFrame;
-	Ui::PlaybackDisplay u;
-	u.setupUi(display);
-	display->show();
+	StretchPlay stretchPlay;
+	stretchPlay.show();
 	app.exec();
 }

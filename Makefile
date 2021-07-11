@@ -37,10 +37,10 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = stretchplay1.0.0
-DISTDIR = /home/crisco/temp/ImprovedSlowDown/.tmp/stretchplay1.0.0
+DISTDIR = /home/crisco/temp/Wave-Stretch/.tmp/stretchplay1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
-LIBS          = $(SUBLIBS) -L/home/crisco/temp/ImprovedSlowDown/libs/irrKlang-64bit-1.6.0/bin/linux-gcc-64/ -lIrrKlang /usr/lib64/libQt5Widgets.so /usr/lib64/libQt5Gui.so /usr/lib64/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) -L/home/crisco/temp/Wave-Stretch/libs/irrKlang-64bit-1.6.0/bin/linux-gcc-64/ -lIrrKlang /usr/lib64/libQt5Widgets.so /usr/lib64/libQt5Gui.so /usr/lib64/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -52,8 +52,12 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = main.cpp moc_stretchplay.cpp
+SOURCES       = main.cpp \
+		MusicPlayer.cpp \
+		stretchplay.cpp moc_stretchplay.cpp
 OBJECTS       = main.o \
+		MusicPlayer.o \
+		stretchplay.o \
 		moc_stretchplay.o
 DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib64/qt5/mkspecs/common/unix.conf \
@@ -241,7 +245,6 @@ DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib64/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib64/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib64/qt5/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		/usr/lib64/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib64/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib64/qt5/mkspecs/features/default_pre.prf \
@@ -261,7 +264,10 @@ DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib64/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib64/qt5/mkspecs/features/yacc.prf \
 		/usr/lib64/qt5/mkspecs/features/lex.prf \
-		build.pro stretchplay.h main.cpp
+		build.pro stretchplay.h \
+		MusicPlayer.h main.cpp \
+		MusicPlayer.cpp \
+		stretchplay.cpp
 QMAKE_TARGET  = stretchplay
 DESTDIR       = 
 TARGET        = stretchplay
@@ -459,7 +465,6 @@ Makefile: build.pro /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf /usr/lib64/qt5/m
 		/usr/lib64/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib64/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib64/qt5/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		/usr/lib64/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib64/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib64/qt5/mkspecs/features/default_pre.prf \
@@ -667,7 +672,6 @@ Makefile: build.pro /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf /usr/lib64/qt5/m
 /usr/lib64/qt5/mkspecs/features/qt_config.prf:
 /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib64/qt5/mkspecs/features/spec_post.prf:
-.qmake.stash:
 /usr/lib64/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib64/qt5/mkspecs/features/toolchain.prf:
 /usr/lib64/qt5/mkspecs/features/default_pre.prf:
@@ -703,8 +707,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib64/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents stretchplay.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents stretchplay.h MusicPlayer.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp MusicPlayer.cpp stretchplay.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents stretchplay.ui $(DISTDIR)/
 
 
@@ -762,9 +766,11 @@ moc_stretchplay.cpp: stretchplay.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_ISoundStopEventReceiver.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_ISoundDeviceList.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_IAudioRecorder.h \
+		MusicPlayer.h \
+		ui_stretchplay.h \
 		moc_predefs.h \
 		/usr/lib64/qt5/bin/moc
-	/usr/lib64/qt5/bin/moc $(DEFINES) --include /home/crisco/temp/ImprovedSlowDown/moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/crisco/temp/ImprovedSlowDown -I/home/crisco/temp/ImprovedSlowDown/-I/usr/lib -I/home/crisco/temp/ImprovedSlowDown/libs/irrKlang-64bit-1.6.0/plugins/ikpMP3 -I/home/crisco/temp/ImprovedSlowDown/libs/irrKlang-64bit-1.6.0/include -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10 -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed -I/usr/include stretchplay.h -o moc_stretchplay.cpp
+	/usr/lib64/qt5/bin/moc $(DEFINES) --include /home/crisco/temp/Wave-Stretch/moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/crisco/temp/Wave-Stretch -I/home/crisco/temp/Wave-Stretch/-I/usr/lib -I/home/crisco/temp/Wave-Stretch/libs/irrKlang-64bit-1.6.0/plugins/ikpMP3 -I/home/crisco/temp/Wave-Stretch/libs/irrKlang-64bit-1.6.0/include -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10 -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed -I/usr/include stretchplay.h -o moc_stretchplay.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -808,8 +814,62 @@ main.o: main.cpp stretchplay.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_IFileReader.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_ISoundStopEventReceiver.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_ISoundDeviceList.h \
-		libs/irrKlang-64bit-1.6.0/include/ik_IAudioRecorder.h
+		libs/irrKlang-64bit-1.6.0/include/ik_IAudioRecorder.h \
+		MusicPlayer.h \
+		ui_stretchplay.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+
+MusicPlayer.o: MusicPlayer.cpp MusicPlayer.h \
+		libs/irrKlang-64bit-1.6.0/include/irrKlang.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_irrKlangTypes.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_vec3d.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IRefCounted.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IVirtualRefCounted.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ESoundOutputDrivers.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ESoundEngineOptions.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_EStreamModes.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_SAudioStreamFormat.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundEngine.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundSource.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISound.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundEffectControl.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IFileFactory.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundMixedOutputReceiver.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IAudioStream.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IAudioStreamLoader.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IFileReader.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundStopEventReceiver.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundDeviceList.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IAudioRecorder.h \
+		stretchplay.h \
+		ui_stretchplay.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MusicPlayer.o MusicPlayer.cpp
+
+stretchplay.o: stretchplay.cpp stretchplay.h \
+		libs/irrKlang-64bit-1.6.0/include/irrKlang.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_irrKlangTypes.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_vec3d.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IRefCounted.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IVirtualRefCounted.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ESoundOutputDrivers.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ESoundEngineOptions.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_EStreamModes.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_SAudioStreamFormat.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundEngine.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundSource.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISound.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundEffectControl.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IFileFactory.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundMixedOutputReceiver.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IAudioStream.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IAudioStreamLoader.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IFileReader.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundStopEventReceiver.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_ISoundDeviceList.h \
+		libs/irrKlang-64bit-1.6.0/include/ik_IAudioRecorder.h \
+		MusicPlayer.h \
+		ui_stretchplay.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stretchplay.o stretchplay.cpp
 
 moc_stretchplay.o: moc_stretchplay.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_stretchplay.o moc_stretchplay.cpp
