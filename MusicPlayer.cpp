@@ -7,7 +7,7 @@ MusicPlayer::MusicPlayer(){
         qDebug() << "Sound engine failed to initialize";
     } else {
         qDebug() << "Sound engine initialized";
-    } 
+    }
 }
 
 MusicPlayer::~MusicPlayer(){
@@ -19,30 +19,23 @@ void MusicPlayer::play(){
     QString path = directoryName + slash + currentSong;
     std::string pathString = path.toUtf8().constData();
     const char *m_dir = pathString.c_str();
-    if(pathString == "/"){
-
+    if(sound) {
+	    if(paused == false){
+		sound->setIsPaused(true);
+		paused = true;
+	    } else if (paused == true){
+		sound->setIsPaused(false);
+		paused = false;
+	    }
     } else {
+	    sound = engine->play2D(m_dir, false, false, true);
+	    sound->setPlaybackSpeed(playSpeed);
+    }
 
-        if(firstPlay == true){
-            sound = engine->play2D(m_dir, false, false, true);
-            firstPlay = false;
-            sound->setPlaybackSpeed(0.75f);
-            waitForEnd();
-        }
-        else {
-            if(paused == false){
-                sound->setIsPaused(true);
-                paused = true;
-            } else if (paused == true){
-                sound->setIsPaused(false);
-                paused = false;
-            }
-        }
-
-    } 
 }
 
-bool MusicPlayer::checkIfSoundEnded(){ 
+
+bool MusicPlayer::checkIfSoundEnded(){
     if(sound->isFinished() == true){
         return true;
     } else {
@@ -51,9 +44,8 @@ bool MusicPlayer::checkIfSoundEnded(){
     return false;
 }
 
-void MusicPlayer::waitForEnd(){
-}
 void MusicPlayer::next(){
+    paused = false;
     if(shuffle == false){
         songIndex++;
     } else {
@@ -66,11 +58,24 @@ void MusicPlayer::next(){
     const char *m_dir = pathString.c_str();
     engine->stopAllSounds();
     sound = engine->play2D(m_dir, false, false, true);
-    sound->setPlaybackSpeed(0.75f);
-    waitForEnd(); 
+    sound->setPlaybackSpeed(playSpeed);
+}
+
+void MusicPlayer::playClickedSong(int index){
+	paused = false;
+	songIndex = index;
+	currentSong = songs.at(songIndex);
+	QString slash = "/";
+	QString path = directoryName + slash + currentSong;
+	std::string pathString = path.toUtf8().constData();
+	const char *m_dir = pathString.c_str();
+	engine->stopAllSounds();
+	sound = engine->play2D(m_dir, false, false, true);
+	sound->setPlaybackSpeed(playSpeed);
 }
 
 void MusicPlayer::previous(){
+    paused = false;
     songIndex--;
     currentSong = songs.at(songIndex);
     QString slash = "/";
@@ -79,8 +84,7 @@ void MusicPlayer::previous(){
     const char *m_dir = pathString.c_str();
     engine->stopAllSounds();
     sound = engine->play2D(m_dir, false, false, true);
-    sound->setPlaybackSpeed(0.75f);
-    waitForEnd();
+    sound->setPlaybackSpeed(playSpeed);
 }
 
 void MusicPlayer::changePlaybackSpeed(){
@@ -94,7 +98,7 @@ void MusicPlayer::getShuffleIndex(){
         srand((unsigned int)time(NULL));
         randomSong = rand() % songs.size();
         if(std::count(shuffledIndex.begin(), shuffledIndex.end(), randomSong)){
-            
+
         } else {
             unique = true;
             songIndex = randomSong;
@@ -110,4 +114,17 @@ void MusicPlayer::song_shuffle(){
     } else {
         shuffle = false;
     }
+}
+
+int MusicPlayer::getLength(){
+	int songLength = sound->getPlayLength() / 1000;
+	return songLength;
+}
+
+bool MusicPlayer::isPaused(){
+	if(paused == true){
+		return true;
+	} else {
+		return false;
+	}
 }

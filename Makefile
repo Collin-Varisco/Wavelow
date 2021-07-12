@@ -54,11 +54,11 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		MusicPlayer.cpp \
-		stretchplay.cpp moc_stretchplay.cpp
+		wave.cpp moc_wave.cpp
 OBJECTS       = main.o \
 		MusicPlayer.o \
-		stretchplay.o \
-		moc_stretchplay.o
+		wave.o \
+		moc_wave.o
 DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib64/qt5/mkspecs/common/unix.conf \
 		/usr/lib64/qt5/mkspecs/common/linux.conf \
@@ -245,6 +245,7 @@ DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib64/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib64/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib64/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib64/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib64/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib64/qt5/mkspecs/features/default_pre.prf \
@@ -264,10 +265,11 @@ DIST          = /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib64/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib64/qt5/mkspecs/features/yacc.prf \
 		/usr/lib64/qt5/mkspecs/features/lex.prf \
-		build.pro stretchplay.h \
-		MusicPlayer.h main.cpp \
+		build.pro ui_stretchplay_new.h \
+		MusicPlayer.h \
+		wave.h main.cpp \
 		MusicPlayer.cpp \
-		stretchplay.cpp
+		wave.cpp
 QMAKE_TARGET  = stretchplay
 DESTDIR       = 
 TARGET        = stretchplay
@@ -276,7 +278,7 @@ TARGET        = stretchplay
 first: all
 ####### Build rules
 
-stretchplay: ui_stretchplay.h $(OBJECTS)  
+stretchplay: ui_stretchplay_new.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: build.pro /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf /usr/lib64/qt5/mkspecs/features/spec_pre.prf \
@@ -465,6 +467,7 @@ Makefile: build.pro /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf /usr/lib64/qt5/m
 		/usr/lib64/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib64/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib64/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib64/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib64/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib64/qt5/mkspecs/features/default_pre.prf \
@@ -672,6 +675,7 @@ Makefile: build.pro /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf /usr/lib64/qt5/m
 /usr/lib64/qt5/mkspecs/features/qt_config.prf:
 /usr/lib64/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib64/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib64/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib64/qt5/mkspecs/features/toolchain.prf:
 /usr/lib64/qt5/mkspecs/features/default_pre.prf:
@@ -707,9 +711,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib64/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents stretchplay.h MusicPlayer.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp MusicPlayer.cpp stretchplay.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents stretchplay.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ui_stretchplay_new.h MusicPlayer.h wave.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp MusicPlayer.cpp wave.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents stretchplay_new.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -741,10 +745,11 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib64/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib64/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_stretchplay.cpp
+compiler_moc_header_make_all: moc_wave.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_stretchplay.cpp
-moc_stretchplay.cpp: stretchplay.h \
+	-$(DEL_FILE) moc_wave.cpp
+moc_wave.cpp: wave.h \
+		MusicPlayer.h \
 		libs/irrKlang-64bit-1.6.0/include/irrKlang.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_irrKlangTypes.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_vec3d.h \
@@ -766,22 +771,21 @@ moc_stretchplay.cpp: stretchplay.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_ISoundStopEventReceiver.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_ISoundDeviceList.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_IAudioRecorder.h \
-		MusicPlayer.h \
-		ui_stretchplay.h \
+		ui_stretchplay_new.h \
 		moc_predefs.h \
 		/usr/lib64/qt5/bin/moc
-	/usr/lib64/qt5/bin/moc $(DEFINES) --include /home/crisco/temp/Wave-Stretch/moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/crisco/temp/Wave-Stretch -I/home/crisco/temp/Wave-Stretch/-I/usr/lib -I/home/crisco/temp/Wave-Stretch/libs/irrKlang-64bit-1.6.0/plugins/ikpMP3 -I/home/crisco/temp/Wave-Stretch/libs/irrKlang-64bit-1.6.0/include -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10 -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed -I/usr/include stretchplay.h -o moc_stretchplay.cpp
+	/usr/lib64/qt5/bin/moc $(DEFINES) --include /home/crisco/temp/Wave-Stretch/moc_predefs.h -I/usr/lib64/qt5/mkspecs/linux-g++ -I/home/crisco/temp/Wave-Stretch -I/home/crisco/temp/Wave-Stretch/-I/usr/lib -I/home/crisco/temp/Wave-Stretch/libs/irrKlang-64bit-1.6.0/plugins/ikpMP3 -I/home/crisco/temp/Wave-Stretch/libs/irrKlang-64bit-1.6.0/include -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10 -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include/g++-v10/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed -I/usr/include wave.h -o moc_wave.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_stretchplay.h
+compiler_uic_make_all: ui_stretchplay_new.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_stretchplay.h
-ui_stretchplay.h: stretchplay.ui \
+	-$(DEL_FILE) ui_stretchplay_new.h
+ui_stretchplay_new.h: stretchplay_new.ui \
 		/usr/lib64/qt5/bin/uic
-	/usr/lib64/qt5/bin/uic stretchplay.ui -o ui_stretchplay.h
+	/usr/lib64/qt5/bin/uic stretchplay_new.ui -o ui_stretchplay_new.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -793,7 +797,8 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-main.o: main.cpp stretchplay.h \
+main.o: main.cpp wave.h \
+		MusicPlayer.h \
 		libs/irrKlang-64bit-1.6.0/include/irrKlang.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_irrKlangTypes.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_vec3d.h \
@@ -815,8 +820,7 @@ main.o: main.cpp stretchplay.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_ISoundStopEventReceiver.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_ISoundDeviceList.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_IAudioRecorder.h \
-		MusicPlayer.h \
-		ui_stretchplay.h
+		ui_stretchplay_new.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 MusicPlayer.o: MusicPlayer.cpp MusicPlayer.h \
@@ -845,7 +849,8 @@ MusicPlayer.o: MusicPlayer.cpp MusicPlayer.h \
 		ui_stretchplay.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MusicPlayer.o MusicPlayer.cpp
 
-stretchplay.o: stretchplay.cpp stretchplay.h \
+wave.o: wave.cpp wave.h \
+		MusicPlayer.h \
 		libs/irrKlang-64bit-1.6.0/include/irrKlang.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_irrKlangTypes.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_vec3d.h \
@@ -867,12 +872,11 @@ stretchplay.o: stretchplay.cpp stretchplay.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_ISoundStopEventReceiver.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_ISoundDeviceList.h \
 		libs/irrKlang-64bit-1.6.0/include/ik_IAudioRecorder.h \
-		MusicPlayer.h \
-		ui_stretchplay.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o stretchplay.o stretchplay.cpp
+		ui_stretchplay_new.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wave.o wave.cpp
 
-moc_stretchplay.o: moc_stretchplay.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_stretchplay.o moc_stretchplay.cpp
+moc_wave.o: moc_wave.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_wave.o moc_wave.cpp
 
 ####### Install
 

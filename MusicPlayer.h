@@ -28,12 +28,12 @@ private:
     ISoundEngine* engine;
     ISound* sound;
 
-    // Audio 
+    // Audio
 
 public:
     MusicPlayer();
     virtual ~MusicPlayer();
-    void waitForEnd();
+    int getLength();
     void song_shuffle();
     // Song/Directory information
     QString directoryName;
@@ -48,11 +48,13 @@ public:
     int songIndex = 0;
     void changePlaybackSpeed();
 
+    void playClickedSong(int index);
     void getShuffleIndex();
     void play();
     void pause();
     void next();
     void previous();
+    bool isPaused();
     QString getCurrentDirectory();
     bool checkIfSoundEnded();
     QString getFolderName();
