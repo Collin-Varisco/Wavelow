@@ -59,7 +59,7 @@ public:
     QLabel *volumeLabel;
     QPushButton *shuffleButton;
 
-    void setupUi(QFrame *PlaybackDisplay)
+    void setupUi(QWidget *PlaybackDisplay)
     {
         if (PlaybackDisplay->objectName().isEmpty())
             PlaybackDisplay->setObjectName(QString::fromUtf8("PlaybackDisplay"));
@@ -345,7 +345,7 @@ public:
         QMetaObject::connectSlotsByName(PlaybackDisplay);
     } // setupUi
 
-    void retranslateUi(QFrame *PlaybackDisplay)
+    void retranslateUi(QWidget *PlaybackDisplay)
     {
         PlaybackDisplay->setWindowTitle(QCoreApplication::translate("PlaybackDisplay", "Frame", nullptr));
         SpeedLabel->setText(QCoreApplication::translate("PlaybackDisplay", "<html><head/><body><p align=\"center\">Speed: 75%</p></body></html>", nullptr));
