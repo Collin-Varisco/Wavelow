@@ -20,6 +20,8 @@ class wave : public QMainWindow
 		int displayPage = 0;
 		QTimer *songTimer;
 		bool firstPlay = true;
+		int fullPages = 0;
+		int remainderSongs = 0;
 	private:
 		Ui::PlaybackDisplay ui;
 		MusicPlayer* musicPlayer;

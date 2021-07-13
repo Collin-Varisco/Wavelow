@@ -17,7 +17,7 @@ wave::wave(QFrame *parent)
 	connect(ui.previousPage, SIGNAL(clicked()), this, SLOT(previousPage()));
 
 	// Selection buttons
-
+	actualValue = 0.75f;
 	connect(ui.song_0, SIGNAL(clicked()), this, SLOT(song_zero()));
 	connect(ui.song_1, SIGNAL(clicked()), this, SLOT(song_one()));
 	connect(ui.song_2, SIGNAL(clicked()), this, SLOT(song_two()));
@@ -36,27 +36,49 @@ wave::~wave(){
 }
 
 void wave::addMusic(){
+	/*
 	QFileDialog dialog;
 	dialog.setFileMode(QFileDialog::DirectoryOnly);
 	dialog.setOption(QFileDialog::ShowDirsOnly, false);
+	dialog.setOption(QFileDialog::DontResolveSymlinks, true);
 	dialog.exec();
 	musicPlayer->directoryName = dialog.directory().absolutePath();
+	*/
+	musicPlayer->directoryName = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+	qDebug() << "Start Directory";
 	QDir directory(musicPlayer->directoryName);
+
+	qDebug() << "Initialized Directory";
 	musicPlayer->songs = directory.entryList(QStringList() << "*.mp3" << ".MP3" << ".wav" << "*.WAV", QDir::Files);
-	displaySongs();
+
+	qDebug() << "Initialized song list";
+	if(musicPlayer->songs.size() % 6 == 0){
+
+		qDebug() << "Initializing pages";
+		fullPages = musicPlayer->songs.size() / 6;
+		remainderSongs = 0;
+		qDebug() << "Finished Initializing pages";
+	} else {
+		qDebug() << "Initializing pages";
+		fullPages = musicPlayer->songs.size() / 6;
+		remainderSongs = musicPlayer->songs.size() % 6;
+		qDebug() << "Finished Initializing pages";
+	}
 	musicPlayer->currentSong = musicPlayer->songs.at(0);
 	ui.SongDisplay->setText(musicPlayer->songs.at(0));
 	songsLoaded = true;
-	musicPlayer->play();
+	//musicPlayer->play();
+	playSong();
+	displaySongs();
 	qDebug() << "Reached end of addMusic()";
 }
 
 
 void wave::playSong(){
 	if(songsLoaded){
-		musicPlayer->play();
 		musicPlayer->playSpeed = actualValue;
-		musicPlayer->changePlaybackSpeed();
+		musicPlayer->play();
 	}
 }
 
@@ -65,7 +87,6 @@ void wave::nextSong(){
 	resetTick();
 	if(songsLoaded){
 		musicPlayer->next();
-		ui.songSlider->setMaximum(musicPlayer->getLength());
 		ui.SongDisplay->setText(musicPlayer->songs.at(musicPlayer->songIndex));
 	}
 }
@@ -74,7 +95,6 @@ void wave::previousSong(){
 	resetTick();
 	if(songsLoaded){
 		musicPlayer->previous();
-		ui.songSlider->setMaximum(musicPlayer->getLength());
 		ui.SongDisplay->setText(musicPlayer->songs.at(musicPlayer->songIndex));
 	}
 }
@@ -103,33 +123,34 @@ void wave::displaySongs(){
 }
 
 void wave::nextPage(){
-	displayPage++;
-	displaySongs();
+	if(displayPage < fullPages-1){
+		displayPage++;
+		displaySongs();
+	}
 }
 
 void wave::previousPage(){
-	displayPage--;
-	displaySongs();
+	if(displayPage != 0){
+		displayPage--;
+		displaySongs();
+	}
 }
 
 void wave::autoPlay(){
-
-	qDebug() << "auto 1";
 	if(songsLoaded == true && musicPlayer->isPaused() == false){
-
-		qDebug() << "auto 2";
-
-		float timeIncreasePercentage = (100 - ui.SpeedSlider->value()) + 100 / 100;
-		qDebug() << timeIncreasePercentage;
-		int newIncreasedTime = (int)(musicPlayer->getLength() * timeIncreasePercentage);
-		ui.songSlider->setMaximum(newIncreasedTime);
-
-		qDebug() << "auto 3";
+		float sliderValue = (1 - actualValue);
+		qDebug() << "Slider value: " << sliderValue;
+		int songLength = musicPlayer->getLength();
+		qDebug() << "Song length: " << songLength;
+		int newMaxLength = (int)((sliderValue*songLength)+songLength);
+		qDebug() << "New Max Length: " << newMaxLength;
+		ui.songSlider->setMaximum(newMaxLength);
 		ui.songSlider->setValue(ui.songSlider->value()+1);
 	}
 
-	if(songsLoaded == true && musicPlayer->shuffle == true){
+	if(songsLoaded == true){
 		if(musicPlayer->checkIfSoundEnded() == true){
+			resetTick();
 			musicPlayer->next();
 			ui.SongDisplay->setText(musicPlayer->currentSong);
 		}
@@ -155,34 +176,47 @@ void wave::tick(){
 }
 
 void wave::song_zero(){
+	resetTick();
 	int index = (6*displayPage) + 0;
 	musicPlayer->playClickedSong(index);
+	ui.SongDisplay->setText(musicPlayer->currentSong);
 }
 
 
 
 void wave::song_one(){
+	resetTick();
 	int index = (6*displayPage) + 1;
 	musicPlayer->playClickedSong(index);
+	ui.SongDisplay->setText(musicPlayer->currentSong);
+
 }
 
 void wave::song_two(){
+	resetTick();
 	int index = (6*displayPage) + 2;
 	musicPlayer->playClickedSong(index);
+	ui.SongDisplay->setText(musicPlayer->currentSong);
 }
 
 void wave::song_three(){
+	resetTick();
 	int index = (6*displayPage) + 3;
 	musicPlayer->playClickedSong(index);
+	ui.SongDisplay->setText(musicPlayer->currentSong);
 }
 
 void wave::song_four(){
+	resetTick();
 	int index = (6*displayPage) + 4;
 	musicPlayer->playClickedSong(index);
+	ui.SongDisplay->setText(musicPlayer->currentSong);
 }
 
 
 void wave::song_five(){
+	resetTick();
 	int index = (6*displayPage) + 5;
 	musicPlayer->playClickedSong(index);
+	ui.SongDisplay->setText(musicPlayer->currentSong);
 }
