@@ -210,10 +210,13 @@ void wave::autoPlay(){
 }
 
 void wave::shuffleSongs(){
-
-	qDebug() << "shuffle";
 	if(songsLoaded == true){
 		musicPlayer->song_shuffle();
+		if(musicPlayer->shuffle == true){
+			ui.shuffleButton->setStyleSheet(QString("background-color: white; color: black; border: 1px solid black;"));
+		} else {
+			ui.shuffleButton->setStyleSheet(QString("background-color:black; color: white; border: 1px solid white;"));
+		}
 	}
 }
 
