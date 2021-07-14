@@ -28,6 +28,7 @@ class wave : public QMainWindow
 		MusicPlayer* musicPlayer;
 
 	public slots:
+		void slideSong();
 		void quit();
 		void nextPage();
 		void previousPage();

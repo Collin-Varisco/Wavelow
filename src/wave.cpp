@@ -14,6 +14,7 @@ wave::wave(QFrame *parent)
 	connect(ui.nextButton, SIGNAL(clicked()), this, SLOT(nextSong()));
 	connect(ui.SpeedSlider, SIGNAL(valueChanged(int)), this, SLOT(slideSpeed(int)));
 	connect(ui.volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(slideVolume(int)));
+	connect(ui.songSlider, SIGNAL(sliderReleased()), this, SLOT(slideSong()));
 	connect(ui.shuffleButton, SIGNAL(clicked()), this, SLOT(shuffleSongs()));
 	connect(ui.nextPage, SIGNAL(clicked()), this, SLOT(nextPage()));
 	connect(ui.previousPage, SIGNAL(clicked()), this, SLOT(previousPage()));
@@ -274,4 +275,9 @@ void wave::song_five(){
 	int index = (6*displayPage) + 5;
 	musicPlayer->playClickedSong(index);
 	ui.SongDisplay->setText(musicPlayer->currentSong);
+}
+
+void wave::slideSong(){
+	int newTime = ui.songSlider->value() * 1000;
+	musicPlayer->setPosition(newTime);
 }

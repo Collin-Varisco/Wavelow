@@ -135,3 +135,11 @@ bool MusicPlayer::isPaused(){
 		return false;
 	}
 }
+
+void MusicPlayer::displayPlayTime(){
+	qDebug() << sound->getPlayPosition();
+}
+
+void MusicPlayer::setPosition(int time){
+	sound->setPlayPosition(time);
+}
