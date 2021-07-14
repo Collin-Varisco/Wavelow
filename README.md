@@ -6,7 +6,7 @@ Dependencies
 2. qmake
 3. make
 
-For linux and macos
-$ qmake
-$ make
+For linux and macos\
+$ qmake\
+$ make\
 $ ./wavelow
