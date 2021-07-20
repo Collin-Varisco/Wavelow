@@ -59,7 +59,7 @@ public:
     QLabel *volumeLabel;
     QPushButton *shuffleButton;
 
-    void setupUi(QWidget *PlaybackDisplay)
+    void setupUi(QFrame *PlaybackDisplay)
     {
         if (PlaybackDisplay->objectName().isEmpty())
             PlaybackDisplay->setObjectName(QString::fromUtf8("PlaybackDisplay"));
@@ -324,7 +324,7 @@ public:
 "}\n"
 "\n"
 "QSlider::sub-page:horizontal{\n"
-"	   background: White;\n"
+"	   background: Yellow;\n"
 "}\n"
 "\n"
 "\n"
@@ -345,7 +345,7 @@ public:
         QMetaObject::connectSlotsByName(PlaybackDisplay);
     } // setupUi
 
-    void retranslateUi(QWidget *PlaybackDisplay)
+    void retranslateUi(QFrame *PlaybackDisplay)
     {
         PlaybackDisplay->setWindowTitle(QCoreApplication::translate("PlaybackDisplay", "Frame", nullptr));
         SpeedLabel->setText(QCoreApplication::translate("PlaybackDisplay", "<html><head/><body><p align=\"center\">Speed: 75%</p></body></html>", nullptr));

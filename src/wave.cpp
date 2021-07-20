@@ -2,15 +2,19 @@
 #include "MusicPlayer.h"
 #include <QTimer>
 #include <QDebug>
+#include <fstream>
+
 wave::wave(QFrame *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
 	musicPlayer = new MusicPlayer();
-	connect( ui.exitButton, SIGNAL(clicked()), this, SLOT(quit()));
-	connect( ui.openFolderButton, SIGNAL(clicked()), this, SLOT(addMusic()));
-	connect( ui.playButton, SIGNAL(clicked()), this, SLOT(playSong()));
-	connect( ui.previousButton, SIGNAL(clicked()), this, SLOT(previousSong()));
+	recentPlaylists(); // load in saved playlists if possible.
+	connect(ui.recentButton, SIGNAL(clicked()), this, SLOT(displayPlaylists()));
+	connect(ui.exitButton, SIGNAL(clicked()), this, SLOT(quit()));
+	connect(ui.openFolderButton, SIGNAL(clicked()), this, SLOT(addMusic()));
+	connect(ui.playButton, SIGNAL(clicked()), this, SLOT(playSong()));
+	connect(ui.previousButton, SIGNAL(clicked()), this, SLOT(previousSong()));
 	connect(ui.nextButton, SIGNAL(clicked()), this, SLOT(nextSong()));
 	connect(ui.SpeedSlider, SIGNAL(valueChanged(int)), this, SLOT(slideSpeed(int)));
 	connect(ui.volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(slideVolume(int)));
@@ -21,17 +25,15 @@ wave::wave(QFrame *parent)
 
 	// Selection buttons
 	actualValue = 0.75f;
-	connect(ui.song_0, SIGNAL(clicked()), this, SLOT(song_zero()));
-	connect(ui.song_1, SIGNAL(clicked()), this, SLOT(song_one()));
-	connect(ui.song_2, SIGNAL(clicked()), this, SLOT(song_two()));
-	connect(ui.song_3, SIGNAL(clicked()), this, SLOT(song_three()));
-	connect(ui.song_4, SIGNAL(clicked()), this, SLOT(song_four()));
-	connect(ui.song_5, SIGNAL(clicked()), this, SLOT(song_five()));
+	connect(ui.song_0, SIGNAL(clicked()), this, SLOT(selection_zero()));
+	connect(ui.song_1, SIGNAL(clicked()), this, SLOT(selection_one()));
+	connect(ui.song_2, SIGNAL(clicked()), this, SLOT(selection_two()));
+	connect(ui.song_3, SIGNAL(clicked()), this, SLOT(selection_three()));
+	connect(ui.song_4, SIGNAL(clicked()), this, SLOT(selection_four()));
+	connect(ui.song_5, SIGNAL(clicked()), this, SLOT(selection_five()));
 	QTimer *timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(autoPlay()));
 	timer->start(1000);
-
-
 }
 
 wave::~wave(){
@@ -43,11 +45,13 @@ void wave::quit(){
 }
 
 void wave::addMusic(){
+	recentSelection = false;
 	QFileDialog dialog;
 	dialog.setFileMode(QFileDialog::DirectoryOnly);
 	if(dialog.exec()){
 		musicPlayer->directoryName = dialog.directory().absolutePath();
 		QDir dirAll(musicPlayer->directoryName);
+
 		musicPlayer->songs = dirAll.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
 		musicPlayer->currentSong = musicPlayer->songs.at(0);
 		ui.SongDisplay->setText(musicPlayer->songs.at(0));
@@ -70,49 +74,6 @@ void wave::addMusic(){
 
 		displaySongs();
 	}
-	/*
-	QString dirname = QFileDialog::getExistingDirectory(
-        this,
-        tr("Select a Directory"),
-        QDir::currentPath() );
-	if( !dirname.isNull() )
-	{
-		QDir directory(dirname);
-		QStringList aList = directory.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
-		// next three lines need to be initialized for musicPlayer play function to work
-		musicPlayer->songs = aList;
-		musicPlayer->directoryName = dirname;
-		musicPlayer->currentSong = musicPlayer->songs.at(0);
-
-		ui.SongDisplay->setText(musicPlayer->songs.at(0));
-		songsLoaded = true;
-		musicPlayer->playSpeed = actualValue;
-		musicPlayer->play();
-	}
-	//musicPlayer->directoryName = dirname;
-	//songsLoaded = true;
-	*/
-	/*
-	QFileDialog dialog;
-	dialog.setFileMode(QFileDialog::DirectoryOnly);
-	dialog.setOption(QFileDialog::ShowDirsOnly, false);
-	dialog.exec();
-	musicPlayer->directoryName = dialog.directory().absolutePath();
-	QDir directory(musicPlayer->directoryName);
-
-	QString outFolder = QFileDialog::getExistingDirectory(0, ("Select Music Folder"), QDir::currentPath());
-	QDir directory(outFolder);
-	QStringList aList = directory.entryList(QStringList() << "*.mp3" << ".MP3" << ".wav" << ".WAV", QDir::Files);
-
-	qDebug() << aList.at(2);
-	*/
-	/*
-	musicPlayer->songs = directory.entryList(QStringList() << "*.mp3" << ".MP3" << ".wav" << "*.WAV", QDir::Files);
-
-	ui.SongDisplay->setText(musicPlayer->songs.at(0));*/
-	//songsLoaded = true;
-	//musicPlayer->play();
-
 	qDebug() << "Reached end of addMusic()";
 }
 
@@ -176,6 +137,7 @@ void wave::displaySongs(){
 	ui.song_5->setText(musicPlayer->songs.at(item + 5));
 }
 
+
 void wave::nextPage(){
 	if(displayPage < fullPages-1){
 		displayPage++;
@@ -190,6 +152,7 @@ void wave::previousPage(){
 	}
 }
 
+// Runs every second
 void wave::autoPlay(){
 	if(songsLoaded == true){
 		if(musicPlayer->checkIfSoundEnded() == true){
@@ -197,14 +160,9 @@ void wave::autoPlay(){
 			musicPlayer->next();
 			ui.SongDisplay->setText(musicPlayer->currentSong);
 		}
-
-		qDebug() << "Check 1";
 		float sliderValue = (1 - actualValue);
-		qDebug() << "Slider value: " << sliderValue;
 		int songLength = musicPlayer->getLength();
-		qDebug() << "Song length: " << songLength;
 		int newMaxLength = (int)((sliderValue*songLength)+songLength);
-		qDebug() << "New Max Length: " << newMaxLength;
 		ui.songSlider->setMaximum(newMaxLength);
 		ui.songSlider->setValue(ui.songSlider->value()+1);
 	}
@@ -231,53 +189,183 @@ void wave::tick(){
 
 }
 
-void wave::song_zero(){
-	resetTick();
-	int index = (6*displayPage) + 0;
-	musicPlayer->playClickedSong(index);
-	ui.SongDisplay->setText(musicPlayer->currentSong);
-}
-
-
-
-void wave::song_one(){
-	resetTick();
-	int index = (6*displayPage) + 1;
-	musicPlayer->playClickedSong(index);
-	ui.SongDisplay->setText(musicPlayer->currentSong);
-
-}
-
-void wave::song_two(){
-	resetTick();
-	int index = (6*displayPage) + 2;
-	musicPlayer->playClickedSong(index);
-	ui.SongDisplay->setText(musicPlayer->currentSong);
-}
-
-void wave::song_three(){
-	resetTick();
-	int index = (6*displayPage) + 3;
-	musicPlayer->playClickedSong(index);
-	ui.SongDisplay->setText(musicPlayer->currentSong);
-}
-
-void wave::song_four(){
-	resetTick();
-	int index = (6*displayPage) + 4;
-	musicPlayer->playClickedSong(index);
-	ui.SongDisplay->setText(musicPlayer->currentSong);
-}
-
-
-void wave::song_five(){
-	resetTick();
-	int index = (6*displayPage) + 5;
-	musicPlayer->playClickedSong(index);
-	ui.SongDisplay->setText(musicPlayer->currentSong);
-}
-
-void wave::slideSong(){
-	int newTime = ui.songSlider->value() * 1000;
+void wave::slideSong(){	
+	musicPlayer->displayPlayTime();
+	int newTime = ui.songSlider->value() * 1000 * actualValue;
 	musicPlayer->setPosition(newTime);
+}
+
+
+// Checks to see if their is a file containing paths to all recently opened playlists.
+// If there is, display them on selection screen
+// Playlist file is "playlists.txt"
+void wave::recentPlaylists(){
+	QStringList workingDirFiles;
+	QDir workingDir(QCoreApplication::applicationDirPath());
+	workingDirFiles = workingDir.entryList(QStringList(), QDir::Files);
+	bool foundFile = false;
+	for(QString i : workingDirFiles){
+		if(i == "playlists.txt"){
+			qDebug() << "found playlist file.";
+			foundFile = true;
+		}
+	}
+	if(foundFile == true){
+		std::string line;
+		std::ifstream playlistFile("playlists.txt");
+		if(playlistFile.is_open())
+		{
+			while(getline(playlistFile, line))
+			{
+				QString qs = QString::fromStdString(line);
+				playlistPaths << qs;
+				std::string slash = "/";
+				size_t pos = 0;
+				while((pos = line.find(slash)) != std::string::npos){
+					line.erase(0, line.find(slash) + slash.length());
+				}
+				qs = QString::fromStdString(line);
+				playlistNames << qs;
+				//loadPlaylist(qs);
+			}
+			playlistFile.close();
+		}
+	}
+	else {
+		qDebug() << "No playlist file found.";
+	}
+}
+
+void wave::loadPlaylist(int index){
+	musicPlayer->directoryName = playlistPaths.at(index);
+	QDir dirAll(playlistPaths.at(index));
+	musicPlayer->songs = dirAll.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
+	musicPlayer->currentSong = musicPlayer->songs.at(0);
+	ui.SongDisplay->setText(musicPlayer->songs.at(0));
+	musicPlayer->initializeSound();
+	musicPlayer->changeVolume();
+	songsLoaded = true;
+
+	if(musicPlayer->songs.size() % 6 == 0){
+
+		qDebug() << "Initializing pages";
+		fullPages = musicPlayer->songs.size() / 6;
+		remainderSongs = 0;
+		qDebug() << "Finished Initializing pages";
+	} else {
+		qDebug() << "Initializing pages";
+		fullPages = musicPlayer->songs.size() / 6;
+		remainderSongs = musicPlayer->songs.size() % 6;
+		qDebug() << "Finished Initializing pages";
+	}
+
+	displaySongs();
+	recentSelection = false;
+}
+
+
+void wave::displayPlaylists(){
+	recentSelection = true;
+	int item = displayPage * 6;
+	float rem;
+	if(item == 0){
+		rem = playlistNames.size();
+	} else {
+		rem = item % 6;
+	}
+	std::cout << rem << std::endl;
+	if(rem > 0)
+		ui.song_0->setText(playlistNames.at(item + 0));
+	if(rem > 1)
+		ui.song_1->setText(playlistNames.at(item + 1));
+	if(rem > 2)
+		ui.song_2->setText(playlistNames.at(item + 2));
+	if(rem > 3)
+		ui.song_3->setText(playlistNames.at(item + 3));
+	if(rem > 4)
+		ui.song_4->setText(playlistNames.at(item + 4));
+	if(rem > 5)
+		ui.song_5->setText(playlistNames.at(item + 5));
+}
+
+
+void wave::selection_zero(){
+	int index = (6*displayPage) + 0;
+	if(recentSelection == false){
+		resetTick();
+		musicPlayer->playClickedSong(index);
+		ui.SongDisplay->setText(musicPlayer->currentSong);
+	}
+	else
+	{
+		loadPlaylist(index);
+	}
+}
+
+void wave::selection_one(){
+	int index = (6*displayPage) + 1;
+	if(recentSelection == false){
+		resetTick();
+		musicPlayer->playClickedSong(index);
+		ui.SongDisplay->setText(musicPlayer->currentSong);
+	}
+	else
+	{
+		loadPlaylist(index);
+	}
+}
+
+void wave::selection_two(){
+	int index = (6*displayPage) + 2;
+	if(recentSelection == false){
+		resetTick();
+		musicPlayer->playClickedSong(index);
+		ui.SongDisplay->setText(musicPlayer->currentSong);
+	}
+	else
+	{
+		loadPlaylist(index);
+	}
+}
+
+
+void wave::selection_three(){
+	int index = (6*displayPage) + 3;
+	if(recentSelection == false){
+		resetTick();
+		musicPlayer->playClickedSong(index);
+		ui.SongDisplay->setText(musicPlayer->currentSong);
+	}
+	else
+	{
+		loadPlaylist(index);
+	}
+}
+
+
+void wave::selection_four(){
+	int index = (6*displayPage) + 4;
+	if(recentSelection == false){
+		resetTick();
+		musicPlayer->playClickedSong(index);
+		ui.SongDisplay->setText(musicPlayer->currentSong);
+	}
+	else
+	{
+		loadPlaylist(index);
+	}
+}
+
+
+void wave::selection_five(){
+	int index = (6*displayPage) + 5;
+	if(recentSelection == false){
+		resetTick();
+		musicPlayer->playClickedSong(index);
+		ui.SongDisplay->setText(musicPlayer->currentSong);
+	}
+	else
+	{
+		loadPlaylist(index);
+	}
 }

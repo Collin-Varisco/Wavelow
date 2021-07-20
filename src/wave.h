@@ -13,7 +13,10 @@ class wave : public QMainWindow
 	public:
 		wave(QFrame *parent = 0);
 		~wave();
+		bool recentSelection = false;
 		bool songsLoaded = false;
+		QStringList playlistNames;
+		QStringList playlistPaths;
 		float actualValue;
 		void resetTick();
 		void displaySongs();
@@ -28,6 +31,7 @@ class wave : public QMainWindow
 		MusicPlayer* musicPlayer;
 
 	public slots:
+		void displayPlaylists();
 		void slideSong();
 		void quit();
 		void nextPage();
@@ -41,12 +45,14 @@ class wave : public QMainWindow
 		void slideVolume(int val);
 		void autoPlay();
 		void shuffleSongs();
+		void recentPlaylists();
+		void loadPlaylist(int index);
 
-		// Song selection methods
-		void song_zero();
-		void song_one();
-		void song_two();
-		void song_three();
-		void song_four();
-		void song_five();
+		// Song/Playlist selection methods
+		void selection_zero();
+		void selection_one();
+		void selection_two();
+		void selection_three();
+		void selection_four();
+		void selection_five();
 };
