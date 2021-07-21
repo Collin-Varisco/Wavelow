@@ -60,7 +60,6 @@ void wave::addMusic(){
 		songsLoaded = true;
 
 		if(musicPlayer->songs.size() % 6 == 0){
-
 			qDebug() << "Initializing pages";
 			fullPages = musicPlayer->songs.size() / 6;
 			remainderSongs = 0;
@@ -71,9 +70,12 @@ void wave::addMusic(){
 			remainderSongs = musicPlayer->songs.size() % 6;
 			qDebug() << "Finished Initializing pages";
 		}
-
 		displaySongs();
 	}
+	// Attempt to add playlist if it isn't in saved file
+	addPlaylist(musicPlayer->directoryName);
+
+
 	qDebug() << "Reached end of addMusic()";
 }
 
@@ -203,7 +205,6 @@ void wave::recentPlaylists(){
 	QStringList workingDirFiles;
 	QDir workingDir(QCoreApplication::applicationDirPath());
 	workingDirFiles = workingDir.entryList(QStringList(), QDir::Files);
-	bool foundFile = false;
 	for(QString i : workingDirFiles){
 		if(i == "playlists.txt"){
 			qDebug() << "found playlist file.";
@@ -236,6 +237,38 @@ void wave::recentPlaylists(){
 	}
 }
 
+void wave::addPlaylist(QString path){
+	std::string line;
+	bool found_Path = false;
+	if(foundFile == true){
+		std::ifstream playlistFile("playlists.txt");
+		if(playlistFile.is_open())
+		{
+			while(getline(playlistFile, line))
+			{
+				QString qStr = QString::fromStdString(line);
+				if(qStr == path){
+					found_Path = true;	
+				}
+			}
+			playlistFile.close();
+			std::ofstream playFile("playlists.txt", std::ios_base::app);
+			if(found_Path == false) {
+				playFile << path.toUtf8().constData() << "\n";	
+				// Windows conversion
+				// playlistFile << path.toUtf8().constData();	
+			}
+			playFile.close();
+		}
+	} 
+	else {
+			std::ofstream playlistFile("playlists.txt");
+			playlistFile << path.toUtf8().constData() << "\n";
+			// Windows conversion
+			// playlistFile << path.toUtf8().constData();	
+	}
+}
+
 void wave::loadPlaylist(int index){
 	musicPlayer->directoryName = playlistPaths.at(index);
 	QDir dirAll(playlistPaths.at(index));
@@ -247,7 +280,6 @@ void wave::loadPlaylist(int index){
 	songsLoaded = true;
 
 	if(musicPlayer->songs.size() % 6 == 0){
-
 		qDebug() << "Initializing pages";
 		fullPages = musicPlayer->songs.size() / 6;
 		remainderSongs = 0;
@@ -262,7 +294,6 @@ void wave::loadPlaylist(int index){
 	displaySongs();
 	recentSelection = false;
 }
-
 
 void wave::displayPlaylists(){
 	recentSelection = true;

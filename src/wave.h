@@ -15,6 +15,8 @@ class wave : public QMainWindow
 		~wave();
 		bool recentSelection = false;
 		bool songsLoaded = false;
+		bool foundFile = false;
+		void addPlaylist(QString path);
 		QStringList playlistNames;
 		QStringList playlistPaths;
 		float actualValue;
