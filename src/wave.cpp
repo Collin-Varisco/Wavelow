@@ -55,7 +55,7 @@ void wave::addMusic(){
 
 		musicPlayer->songs = dirAll.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
 		musicPlayer->currentSong = musicPlayer->songs.at(0);
-		ui.SongDisplay->setText(musicPlayer->songs.at(0));
+		ui.SongDisplay->setText(formatSongTitle(musicPlayer->songs.at(0)));
 		musicPlayer->initializeSound();
 		musicPlayer->changeVolume();
 		songsLoaded = true;
@@ -92,7 +92,7 @@ void wave::nextSong(){
 	resetTick();
 	if(songsLoaded){
 		musicPlayer->next();
-		ui.SongDisplay->setText(musicPlayer->songs.at(musicPlayer->songIndex));
+		ui.SongDisplay->setText(formatSongTitle(musicPlayer->songs.at(musicPlayer->songIndex)));
 	}
 }
 
@@ -100,7 +100,7 @@ void wave::previousSong(){
 	resetTick();
 	if(songsLoaded){
 		musicPlayer->previous();
-		ui.SongDisplay->setText(musicPlayer->songs.at(musicPlayer->songIndex));
+		ui.SongDisplay->setText(formatSongTitle(musicPlayer->songs.at(musicPlayer->songIndex)));
 	}
 }
 
@@ -140,28 +140,50 @@ void wave::displaySongs(){
 	qDebug() << "Current Page: " << displayPage;
 	qDebug() << "Full pages: " << fullPages;
 	if(displayPage < fullPages){
-		ui.song_0->setText(musicPlayer->songs.at(item + 0));
-		ui.song_1->setText(musicPlayer->songs.at(item + 1));
-		ui.song_2->setText(musicPlayer->songs.at(item + 2));
-		ui.song_3->setText(musicPlayer->songs.at(item + 3));
-		ui.song_4->setText(musicPlayer->songs.at(item + 4));
-		ui.song_5->setText(musicPlayer->songs.at(item + 5));
+		ui.song_0->setText(formatSongTitle(musicPlayer->songs.at(item + 0)));
+		ui.song_1->setText(formatSongTitle(musicPlayer->songs.at(item + 1)));
+		ui.song_2->setText(formatSongTitle(musicPlayer->songs.at(item + 2)));
+		ui.song_3->setText(formatSongTitle(musicPlayer->songs.at(item + 3)));
+		ui.song_4->setText(formatSongTitle(musicPlayer->songs.at(item + 4)));
+		ui.song_5->setText(formatSongTitle(musicPlayer->songs.at(item + 5)));
 	}
 	else {	
 		clearDisplay();	
 		if(remainderSongs > 0)
-			ui.song_0->setText(musicPlayer->songs.at(item + 0));
+			ui.song_0->setText(formatSongTitle(musicPlayer->songs.at(item + 0)));
 		if(remainderSongs > 1)
-			ui.song_1->setText(musicPlayer->songs.at(item + 1));
+			ui.song_1->setText(formatSongTitle(musicPlayer->songs.at(item + 1)));
 		if(remainderSongs > 2)
-			ui.song_2->setText(musicPlayer->songs.at(item + 2));
+			ui.song_2->setText(formatSongTitle(musicPlayer->songs.at(item + 2)));
 		if(remainderSongs > 3)
-			ui.song_3->setText(musicPlayer->songs.at(item + 3));
+			ui.song_3->setText(formatSongTitle(musicPlayer->songs.at(item + 3)));
 		if(remainderSongs > 4)
-			ui.song_4->setText(musicPlayer->songs.at(item + 4));
+			ui.song_4->setText(formatSongTitle(musicPlayer->songs.at(item + 4)));
 		if(remainderSongs > 5)
-			ui.song_5->setText(musicPlayer->songs.at(item + 5));	
+			ui.song_5->setText(formatSongTitle(musicPlayer->songs.at(item + 5)));	
 	}
+}
+
+QString wave::formatSongTitle(QString title){
+	std::string titleStr = title.toUtf8().constData();
+	std::string mp3 = ".mp3";
+	std::string wav = ".wav";
+	std::string audio = "(Audio)";
+	std::string dash = "- ";
+	std::string::size_type pos = titleStr.find(dash);
+	if(pos != std::string::npos)
+		titleStr.erase(0, pos+dash.length());
+	std::string::size_type i = titleStr.find(mp3);
+	if (i != std::string::npos)
+		titleStr.erase(i, mp3.length());
+	std::string::size_type a = titleStr.find(audio);
+	if(a != std::string::npos)
+		titleStr.erase(a, audio.length());
+	std::string::size_type w = titleStr.find(wav);
+	if(w != std::string::npos)
+		titleStr.erase(w, wav.length());
+	QString finalSongTitle = QString::fromStdString(titleStr);
+	return finalSongTitle;
 }
 
 void wave::clearDisplay(){
@@ -194,7 +216,7 @@ void wave::autoPlay(){
 		if(musicPlayer->checkIfSoundEnded() == true){
 			resetTick();
 			musicPlayer->next();
-			ui.SongDisplay->setText(musicPlayer->currentSong);
+			ui.SongDisplay->setText(formatSongTitle(musicPlayer->currentSong));
 		}
 		float sliderValue = (1 - actualValue);
 		int songLength = musicPlayer->getLength();
@@ -278,6 +300,7 @@ void wave::addPlaylist(QString path){
 				}
 			}
 			playlistFile.close();
+			// Append path string to end of file.
 			std::ofstream playFile("playlists.txt", std::ios_base::app);
 			if(found_Path == false) {
 				playFile << path.toUtf8().constData() << "\n";	
@@ -302,7 +325,7 @@ void wave::loadPlaylist(int index){
 	QDir dirAll(playlistPaths.at(index));
 	musicPlayer->songs = dirAll.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
 	musicPlayer->currentSong = musicPlayer->songs.at(0);
-	ui.SongDisplay->setText(musicPlayer->songs.at(0));
+	ui.SongDisplay->setText(formatSongTitle(musicPlayer->songs.at(0)));
 	musicPlayer->initializeSound();
 	musicPlayer->changeVolume();
 	songsLoaded = true;
@@ -356,7 +379,7 @@ void wave::selection_zero(){
 	if(recentSelection == false){
 		resetTick();
 		musicPlayer->playClickedSong(index);
-		ui.SongDisplay->setText(musicPlayer->currentSong);
+		ui.SongDisplay->setText(formatSongTitle(musicPlayer->currentSong));
 	}
 	else
 	{
@@ -369,7 +392,7 @@ void wave::selection_one(){
 	if(recentSelection == false){
 		resetTick();
 		musicPlayer->playClickedSong(index);
-		ui.SongDisplay->setText(musicPlayer->currentSong);
+		ui.SongDisplay->setText(formatSongTitle(musicPlayer->currentSong));
 	}
 	else
 	{
@@ -382,7 +405,7 @@ void wave::selection_two(){
 	if(recentSelection == false){
 		resetTick();
 		musicPlayer->playClickedSong(index);
-		ui.SongDisplay->setText(musicPlayer->currentSong);
+		ui.SongDisplay->setText(formatSongTitle(musicPlayer->currentSong));
 	}
 	else
 	{
@@ -396,7 +419,7 @@ void wave::selection_three(){
 	if(recentSelection == false){
 		resetTick();
 		musicPlayer->playClickedSong(index);
-		ui.SongDisplay->setText(musicPlayer->currentSong);
+		ui.SongDisplay->setText(formatSongTitle(musicPlayer->currentSong));
 	}
 	else
 	{
@@ -410,7 +433,7 @@ void wave::selection_four(){
 	if(recentSelection == false){
 		resetTick();
 		musicPlayer->playClickedSong(index);
-		ui.SongDisplay->setText(musicPlayer->currentSong);
+		ui.SongDisplay->setText(formatSongTitle(musicPlayer->currentSong));
 	}
 	else
 	{
@@ -424,7 +447,7 @@ void wave::selection_five(){
 	if(recentSelection == false){
 		resetTick();
 		musicPlayer->playClickedSong(index);
-		ui.SongDisplay->setText(musicPlayer->currentSong);
+		ui.SongDisplay->setText(formatSongTitle(musicPlayer->currentSong));
 	}
 	else
 	{

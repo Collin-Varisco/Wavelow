@@ -23,6 +23,7 @@ class wave : public QMainWindow
 		void resetTick();
 		void displaySongs();
 		void clearDisplay();
+		QString formatSongTitle(QString title);
 		int displayPage = 0;
 		QTimer *songTimer;
 		bool firstPlay = true;
