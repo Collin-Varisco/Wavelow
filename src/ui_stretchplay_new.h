@@ -324,7 +324,7 @@ public:
 "}\n"
 "\n"
 "QSlider::sub-page:horizontal{\n"
-"	   background: Yellow;\n"
+"	   background: White;\n"
 "}\n"
 "\n"
 "\n"

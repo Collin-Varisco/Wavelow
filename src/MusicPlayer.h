@@ -48,9 +48,12 @@ public:
     int songIndex = 0;
     void changePlaybackSpeed();
 
+    void restart_Engine();
+    void displayPlayTime();
     void changeVolume();
     void initializeSound();
     void playClickedSong(int index);
+    void setPosition(int time);
     void getShuffleIndex();
     void play();
     void pause();
