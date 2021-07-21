@@ -9,6 +9,7 @@ wave::wave(QFrame *parent)
 {
 	ui.setupUi(this);
 	musicPlayer = new MusicPlayer();
+	ui.SongDisplay->setAlignment(Qt::AlignCenter);
 	recentPlaylists(); // load in saved playlists if possible.
 	connect(ui.recentButton, SIGNAL(clicked()), this, SLOT(displayPlaylists()));
 	connect(ui.exitButton, SIGNAL(clicked()), this, SLOT(quit()));

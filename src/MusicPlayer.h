@@ -1,8 +1,6 @@
 #ifndef MUSICPLAYER_H_
 #define MUSICPLAYER_H_
 
-
-
 #include <QDebug>
 #include <QStringList>
 #include <QDir>
@@ -16,10 +14,7 @@
 #include <irrKlang.h>
 #include <vector>
 #include <iostream>
-
 using namespace irrklang;
-
-
 
 class MusicPlayer {
 
@@ -28,13 +23,10 @@ private:
     ISoundEngine* engine;
     ISound* sound;
 
-    // Audio
-
 public:
     MusicPlayer();
     virtual ~MusicPlayer();
     int getLength();
-    void song_shuffle();
     // Song/Directory information
     QString directoryName;
     QStringList songs;
@@ -46,8 +38,9 @@ public:
     bool paused = false;
     bool firstPlay = true;
     int songIndex = 0;
-    void changePlaybackSpeed();
 
+    void song_shuffle();
+    void changePlaybackSpeed();
     void restart_Engine();
     void displayPlayTime();
     void changeVolume();

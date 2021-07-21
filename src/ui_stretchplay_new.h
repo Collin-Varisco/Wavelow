@@ -353,10 +353,10 @@ public:
         previousButton->setText(QCoreApplication::translate("PlaybackDisplay", "\342\227\200", nullptr));
         nextButton->setText(QCoreApplication::translate("PlaybackDisplay", "\342\226\266", nullptr));
         openFolderButton->setText(QCoreApplication::translate("PlaybackDisplay", "Open", nullptr));
-        recentButton->setText(QCoreApplication::translate("PlaybackDisplay", "Recent", nullptr));
+        recentButton->setText(QCoreApplication::translate("PlaybackDisplay", "Playlists", nullptr));
         exitButton->setText(QCoreApplication::translate("PlaybackDisplay", "Exit", nullptr));
         nextPage->setText(QCoreApplication::translate("PlaybackDisplay", ">", nullptr));
-        SongDisplay->setText(QCoreApplication::translate("PlaybackDisplay", "<html><head/><body><p align=\"center\">Name of the song</p></body></html>", nullptr));
+        SongDisplay->setText(QCoreApplication::translate("PlaybackDisplay", "<html><head/><body><p></p></body></html>", nullptr));
         previousPage->setText(QCoreApplication::translate("PlaybackDisplay", "<", nullptr));
         song_0->setText(QString());
         song_1->setText(QString());
