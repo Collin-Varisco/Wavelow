@@ -74,8 +74,6 @@ void wave::addMusic(){
 	}
 	// Attempt to add playlist if it isn't in saved file
 	addPlaylist(musicPlayer->directoryName);
-
-
 	qDebug() << "Reached end of addMusic()";
 }
 
@@ -131,16 +129,41 @@ void wave::slideVolume(int val){
 
 void wave::displaySongs(){
 	int item = displayPage * 6;
-	ui.song_0->setText(musicPlayer->songs.at(item + 0));
-	ui.song_1->setText(musicPlayer->songs.at(item + 1));
-	ui.song_2->setText(musicPlayer->songs.at(item + 2));
-	ui.song_3->setText(musicPlayer->songs.at(item + 3));
-	ui.song_4->setText(musicPlayer->songs.at(item + 4));
-	ui.song_5->setText(musicPlayer->songs.at(item + 5));
+	float rem;
+	if(item == 0){
+		rem = playlistNames.size();
+	} else {
+		rem = item % 6;
+	}
+	qDebug() << "Remainder Songs: " << remainderSongs;
+	qDebug() << "Current Page: " << displayPage;
+	qDebug() << "Full pages: " << fullPages;
+	if(displayPage < fullPages){
+		ui.song_0->setText(musicPlayer->songs.at(item + 0));
+		ui.song_1->setText(musicPlayer->songs.at(item + 1));
+		ui.song_2->setText(musicPlayer->songs.at(item + 2));
+		ui.song_3->setText(musicPlayer->songs.at(item + 3));
+		ui.song_4->setText(musicPlayer->songs.at(item + 4));
+		ui.song_5->setText(musicPlayer->songs.at(item + 5));
+	}
+	else {	
+		clearDisplay();	
+		if(remainderSongs > 0)
+			ui.song_0->setText(musicPlayer->songs.at(item + 0));
+		if(remainderSongs > 1)
+			ui.song_1->setText(musicPlayer->songs.at(item + 1));
+		if(remainderSongs > 2)
+			ui.song_2->setText(musicPlayer->songs.at(item + 2));
+		if(remainderSongs > 3)
+			ui.song_3->setText(musicPlayer->songs.at(item + 3));
+		if(remainderSongs > 4)
+			ui.song_4->setText(musicPlayer->songs.at(item + 4));
+		if(remainderSongs > 5)
+			ui.song_5->setText(musicPlayer->songs.at(item + 5));	
+	}
 }
 
 void wave::clearDisplay(){
-	int item = displayPage * 6;
 	ui.song_0->setText("");
 	ui.song_1->setText("");
 	ui.song_2->setText("");
@@ -151,7 +174,7 @@ void wave::clearDisplay(){
 
 
 void wave::nextPage(){
-	if(displayPage < fullPages-1){
+	if(displayPage != fullPages){
 		displayPage++;
 		displaySongs();
 	}
@@ -233,13 +256,9 @@ void wave::recentPlaylists(){
 				}
 				qs = QString::fromStdString(line);
 				playlistNames << qs;
-				//loadPlaylist(qs);
 			}
 			playlistFile.close();
 		}
-	}
-	else {
-		qDebug() << "No playlist file found.";
 	}
 }
 
@@ -275,6 +294,7 @@ void wave::addPlaylist(QString path){
 	}
 }
 
+// load playlist that is clicked on selection screen
 void wave::loadPlaylist(int index){
 	musicPlayer->restart_Engine();
 	musicPlayer->directoryName = playlistPaths.at(index);
@@ -286,19 +306,20 @@ void wave::loadPlaylist(int index){
 	musicPlayer->changeVolume();
 	songsLoaded = true;
 
-	if(musicPlayer->songs.size() % 6 == 0){
-		qDebug() << "Initializing pages";
+	qDebug() << "Initializing pages";
+	qDebug() << "TOTAL: " << musicPlayer->songs.size();
+	int remainder = musicPlayer->songs.size() % 6;
+	if(remainder == 0){
 		fullPages = musicPlayer->songs.size() / 6;
 		remainderSongs = 0;
-		qDebug() << "Finished Initializing pages";
-	} else {
-		qDebug() << "Initializing pages";
-		fullPages = musicPlayer->songs.size() / 6;
-		remainderSongs = musicPlayer->songs.size() % 6;
-		qDebug() << "Finished Initializing pages";
 	}
-
+	else {
+		fullPages = (musicPlayer->songs.size() / 6);
+		remainderSongs = remainder;
+	}
+	qDebug() << "Finished Initializing pages";
 	displaySongs();
+	qDebug() << "Remaining: " << remainderSongs;
 	recentSelection = false;
 }
 
@@ -314,7 +335,6 @@ void wave::displayPlaylists(){
 	} else {
 		rem = item % 6;
 	}
-	std::cout << rem << std::endl;
 	if(rem > 0)
 		ui.song_0->setText(playlistNames.at(item + 0));
 	if(rem > 1)
