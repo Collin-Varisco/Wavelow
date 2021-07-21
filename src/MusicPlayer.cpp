@@ -10,14 +10,17 @@ MusicPlayer::MusicPlayer(){
 }
 
 MusicPlayer::~MusicPlayer(){
+    engine->drop();
+}
+
+void MusicPlayer::restart_Engine(){
+    engine->drop();
+    engine = createIrrKlangDevice();
 }
 
 void MusicPlayer::initializeSound(){
-    qDebug() << "current directory: " << directoryName;
-    qDebug() << "current song: " << currentSong;
     QString slash = "/";
     QString path = directoryName + slash + currentSong;
-    qDebug() << "Full: " << path;
     std::string pathString = path.toUtf8().constData();
     const char *m_dir = pathString.c_str();
     qDebug() << "right before initializing sound";
@@ -29,14 +32,13 @@ void MusicPlayer::initializeSound(){
 
 void MusicPlayer::play(){
 	    if(paused == false){
-		sound->setIsPaused(true);
-		paused = true;
+            sound->setIsPaused(true);
+            paused = true;
 	    } else if (paused == true){
-		sound->setIsPaused(false);
-		paused = false;
+            sound->setIsPaused(false);
+            paused = false;
 	    }
 }
-
 
 bool MusicPlayer::checkIfSoundEnded(){
     if(sound->isFinished() == true){

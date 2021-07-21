@@ -139,6 +139,16 @@ void wave::displaySongs(){
 	ui.song_5->setText(musicPlayer->songs.at(item + 5));
 }
 
+void wave::clearDisplay(){
+	int item = displayPage * 6;
+	ui.song_0->setText("");
+	ui.song_1->setText("");
+	ui.song_2->setText("");
+	ui.song_3->setText("");
+	ui.song_4->setText("");
+	ui.song_5->setText("");
+}
+
 
 void wave::nextPage(){
 	if(displayPage < fullPages-1){
@@ -185,10 +195,6 @@ void wave::resetTick(){
 	if(songsLoaded == true){
 		ui.songSlider->setValue(0);
 	}
-}
-
-void wave::tick(){
-
 }
 
 void wave::slideSong(){	
@@ -270,6 +276,7 @@ void wave::addPlaylist(QString path){
 }
 
 void wave::loadPlaylist(int index){
+	musicPlayer->restart_Engine();
 	musicPlayer->directoryName = playlistPaths.at(index);
 	QDir dirAll(playlistPaths.at(index));
 	musicPlayer->songs = dirAll.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
@@ -296,7 +303,10 @@ void wave::loadPlaylist(int index){
 }
 
 void wave::displayPlaylists(){
+	displayPage = 0;
+	clearDisplay();
 	recentSelection = true;
+	musicPlayer->restart_Engine();
 	int item = displayPage * 6;
 	float rem;
 	if(item == 0){

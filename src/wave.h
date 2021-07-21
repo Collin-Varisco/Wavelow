@@ -22,6 +22,7 @@ class wave : public QMainWindow
 		float actualValue;
 		void resetTick();
 		void displaySongs();
+		void clearDisplay();
 		int displayPage = 0;
 		QTimer *songTimer;
 		bool firstPlay = true;
@@ -38,7 +39,6 @@ class wave : public QMainWindow
 		void quit();
 		void nextPage();
 		void previousPage();
-		void tick();
 		void addMusic();
 		void playSong();
 		void nextSong();

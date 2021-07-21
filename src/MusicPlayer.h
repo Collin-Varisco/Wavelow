@@ -48,6 +48,7 @@ public:
     int songIndex = 0;
     void changePlaybackSpeed();
 
+    void restart_Engine();
     void displayPlayTime();
     void changeVolume();
     void initializeSound();
