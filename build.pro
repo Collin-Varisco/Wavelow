@@ -8,13 +8,13 @@ TARGET = wavelow
 unix {
 	LIBS += $$PWD/libs/irrKlang-64bit-1.6.0/bin/linux-gcc-64/ikpFlac.so
 	LIBS += $$PWD/libs/irrKlang-64bit-1.6.0/bin/linux-gcc-64/ikpMP3.so
-	LIBS += -L$$PWD/libs/irrKlang-64bit-1.6.0/bin/linux-gcc-64/ -lIrrKlang
+	LIBS += $$PWD/libs/irrKlang-64bit-1.6.0/bin/linux-gcc-64/libIrrKlang.so
 }
 
 macx {
 	LIBS += $$PWD/libs/irrKlang-64bit-1.6.0/bin/macosx-gcc/ikpFLAC.dylib
 	LIBS += $$PWD/libs/irrKlang-64bit-1.6.0/bin/macosx-gcc/ikpMP3.dylib
-	LIBS += -L$$PWD/libs/irrKlang-64bit-1.6.0/bin/macosx-gcc/ -lIrrKlang
+	LIBS += $$PWD/libs/irrKlang-64bit-1.6.0/bin/macosx-gcc/libIrrKlang.dylib
 }
 
 win32 {
