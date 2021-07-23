@@ -48,7 +48,7 @@ void wave::quit(){
 void wave::addMusic(){
 	recentSelection = false;
 	QFileDialog dialog;
-	dialog.setFileMode(QFileDialog::DirectoryOnly);
+	dialog.setFileMode(QFileDialog::Directory);
 	if(dialog.exec()){
 		musicPlayer->directoryName = dialog.directory().absolutePath();
 		QDir dirAll(musicPlayer->directoryName);
