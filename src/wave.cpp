@@ -56,6 +56,9 @@ void wave::addMusic(){
 		musicPlayer->songs = dirAll.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
 		musicPlayer->currentSong = musicPlayer->songs.at(0);
 		ui.SongDisplay->setText(formatSongTitle(musicPlayer->songs.at(0)));
+		if(musicPlayer->paused == false){
+		    musicPlayer->restart_Engine();
+		}
 		musicPlayer->initializeSound();
 		musicPlayer->changeVolume();
 		songsLoaded = true;
@@ -147,8 +150,8 @@ void wave::displaySongs(){
 		ui.song_4->setText(formatSongTitle(musicPlayer->songs.at(item + 4)));
 		ui.song_5->setText(formatSongTitle(musicPlayer->songs.at(item + 5)));
 	}
-	else {	
-		clearDisplay();	
+	else {
+		clearDisplay();
 		if(remainderSongs > 0)
 			ui.song_0->setText(formatSongTitle(musicPlayer->songs.at(item + 0)));
 		if(remainderSongs > 1)
@@ -160,7 +163,7 @@ void wave::displaySongs(){
 		if(remainderSongs > 4)
 			ui.song_4->setText(formatSongTitle(musicPlayer->songs.at(item + 4)));
 		if(remainderSongs > 5)
-			ui.song_5->setText(formatSongTitle(musicPlayer->songs.at(item + 5)));	
+			ui.song_5->setText(formatSongTitle(musicPlayer->songs.at(item + 5)));
 	}
 }
 
@@ -243,7 +246,7 @@ void wave::resetTick(){
 	}
 }
 
-void wave::slideSong(){	
+void wave::slideSong(){
 	musicPlayer->displayPlayTime();
 	int newTime = ui.songSlider->value() * 1000 * actualValue;
 	musicPlayer->setPosition(newTime);
@@ -254,6 +257,8 @@ void wave::slideSong(){
 // If there is, display them on selection screen
 // Playlist file is "playlists.txt"
 void wave::recentPlaylists(){
+    playlistNames.clear();
+    playlistPaths.clear();
 	QStringList workingDirFiles;
 	QDir workingDir(QCoreApplication::applicationDirPath());
 	workingDirFiles = workingDir.entryList(QStringList(), QDir::Files);
@@ -296,25 +301,25 @@ void wave::addPlaylist(QString path){
 			{
 				QString qStr = QString::fromStdString(line);
 				if(qStr == path){
-					found_Path = true;	
+					found_Path = true;
 				}
 			}
 			playlistFile.close();
 			// Append path string to end of file.
 			std::ofstream playFile("playlists.txt", std::ios_base::app);
 			if(found_Path == false) {
-				playFile << path.toUtf8().constData() << "\n";	
+				playFile << path.toUtf8().constData() << "\n";
 				// Windows conversion
-				// playlistFile << path.toUtf8().constData();	
+				// playlistFile << path.toUtf8().constData();
 			}
 			playFile.close();
 		}
-	} 
+	}
 	else {
 			std::ofstream playlistFile("playlists.txt");
 			playlistFile << path.toUtf8().constData() << "\n";
 			// Windows conversion
-			// playlistFile << path.toUtf8().constData();	
+			// playlistFile << path.toUtf8().constData();
 	}
 }
 
@@ -348,6 +353,8 @@ void wave::loadPlaylist(int index){
 }
 
 void wave::displayPlaylists(){
+    musicPlayer->restart_Engine();
+    recentPlaylists();
 	displayPage = 0;
 	clearDisplay();
 	recentSelection = true;

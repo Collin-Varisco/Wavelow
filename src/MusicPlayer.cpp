@@ -14,8 +14,7 @@ MusicPlayer::~MusicPlayer(){
 }
 
 void MusicPlayer::restart_Engine(){
-    engine->drop();
-    engine = createIrrKlangDevice();
+    engine->stopAllSounds();
 }
 
 void MusicPlayer::initializeSound(){
