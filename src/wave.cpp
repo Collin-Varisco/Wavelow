@@ -257,10 +257,12 @@ void wave::slideSong(){
 // If there is, display them on selection screen
 // Playlist file is "playlists.txt"
 void wave::recentPlaylists(){
+    musicPlayer->restart_Engine();
+    pt = qApp->applicationDirPath().toStdString() + "/playlists.txt";
     playlistNames.clear();
     playlistPaths.clear();
 	QStringList workingDirFiles;
-	QDir workingDir(QCoreApplication::applicationDirPath());
+	QDir workingDir(qApp->applicationDirPath());
 	workingDirFiles = workingDir.entryList(QStringList(), QDir::Files);
 	for(QString i : workingDirFiles){
 		if(i == "playlists.txt"){
@@ -268,58 +270,53 @@ void wave::recentPlaylists(){
 			foundFile = true;
 		}
 	}
-	if(foundFile == true){
-		std::string line;
-		std::ifstream playlistFile("playlists.txt");
-		if(playlistFile.is_open())
+	QString readline;
+	QFile playFile(QString::fromStdString(pt));
+	if(playFile.open(QIODevice::ReadWrite)){
+		QTextStream in(&playFile);
+		while(!in.atEnd())
 		{
-			while(getline(playlistFile, line))
-			{
-				QString qs = QString::fromStdString(line);
-				playlistPaths << qs;
-				std::string slash = "/";
-				size_t pos = 0;
-				while((pos = line.find(slash)) != std::string::npos){
-					line.erase(0, line.find(slash) + slash.length());
-				}
-				qs = QString::fromStdString(line);
-				playlistNames << qs;
-			}
-			playlistFile.close();
-		}
+			readline = in.readLine();
+			std::string line = readline.toUtf8().constData();	
+			// if on windows : line = in.readLine().toLocal8Bit().constData();
+			QString qs = QString::fromStdString(line);
+			playlistPaths << qs;
+			std::string slash = "/";
+			size_t pos = 0;
+			while((pos = line.find(slash)) != std::string::npos){
+				line.erase(0, line.find(slash) + slash.length());
+			}	
+			qs = QString::fromStdString(line);
+			playlistNames << qs;
+		}	
 	}
 }
 
 void wave::addPlaylist(QString path){
 	std::string line;
 	bool found_Path = false;
-	if(foundFile == true){
-		std::ifstream playlistFile("playlists.txt");
-		if(playlistFile.is_open())
-		{
-			while(getline(playlistFile, line))
-			{
-				QString qStr = QString::fromStdString(line);
-				if(qStr == path){
-					found_Path = true;
-				}
-			}
-			playlistFile.close();
-			// Append path string to end of file.
-			std::ofstream playFile("playlists.txt", std::ios_base::app);
-			if(found_Path == false) {
-				playFile << path.toUtf8().constData() << "\n";
-				// Windows conversion
-				// playlistFile << path.toUtf8().constData();
-			}
-			playFile.close();
+	QFile playFile(QString::fromStdString(pt));
+	QTextStream in(&playFile);
+	while(!in.atEnd())
+	{
+		QString qStr = in.readLine();
+		if(qStr == path){
+			found_Path = true;
 		}
 	}
-	else {
-			std::ofstream playlistFile("playlists.txt");
-			playlistFile << path.toUtf8().constData() << "\n";
+	playFile.close();
+
+	if(found_Path == false) {
+		// Append path string to end of file.
+		QFile pFile(QString::fromStdString(pt));
+		if( pFile.open(QIODevice::ReadWrite) ) {
+			QTextStream out(&pFile);
+			out << path.toUtf8().constData() << "\n";
+			qDebug() << "Written to text file.";
 			// Windows conversion
 			// playlistFile << path.toUtf8().constData();
+		}
+		pFile.close();
 	}
 }
 

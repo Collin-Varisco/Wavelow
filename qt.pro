@@ -7,10 +7,7 @@ TARGET = wavelow
 
 unix {
     macx {
-        config -= app_bundle
-        LIBS += $$PWD/libs/irrKlang-64bit-1.6.0/bin/macosx-gcc/ikpFLAC.dylib
-        LIBS += $$PWD/libs/irrKlang-64bit-1.6.0/bin/macosx-gcc/ikpMP3.dylib
-        LIBS += $$PWD/libs/irrKlang-64bit-1.6.0/bin/macosx-gcc/libIrrKlang.dylib
+        LIBS += /usr/local/lib/libirrklang.dylib
     } 
     else {
         LIBS += ~/.local/bin/ikpFlac.so

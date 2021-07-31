@@ -13,6 +13,7 @@ class wave : public QMainWindow
 	public:
 		wave(QFrame *parent = 0);
 		~wave();
+		std::string pt;
 		bool recentSelection = false;
 		bool songsLoaded = false;
 		bool foundFile = false;
