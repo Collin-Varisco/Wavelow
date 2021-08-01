@@ -133,12 +133,6 @@ void wave::slideVolume(int val){
 
 void wave::displaySongs(){
 	int item = displayPage * 6;
-	float rem;
-	if(item == 0){
-		rem = playlistNames.size();
-	} else {
-		rem = item % 6;
-	}
 	qDebug() << "Remainder Songs: " << remainderSongs;
 	qDebug() << "Current Page: " << displayPage;
 	qDebug() << "Full pages: " << fullPages;
@@ -257,19 +251,23 @@ void wave::slideSong(){
 // If there is, display them on selection screen
 // Playlist file is "playlists.txt"
 void wave::recentPlaylists(){
-    musicPlayer->restart_Engine();
-    pt = qApp->applicationDirPath().toStdString() + "/playlists.txt";
     playlistNames.clear();
     playlistPaths.clear();
-	QStringList workingDirFiles;
-	QDir workingDir(qApp->applicationDirPath());
-	workingDirFiles = workingDir.entryList(QStringList(), QDir::Files);
-	for(QString i : workingDirFiles){
-		if(i == "playlists.txt"){
-			qDebug() << "found playlist file.";
-			foundFile = true;
-		}
-	}
+
+    if(firstPlaylistCheck == false){
+        pt = qApp->applicationDirPath().toStdString() + "/playlists.txt";
+        QStringList workingDirFiles;
+        QDir workingDir(qApp->applicationDirPath());
+        workingDirFiles = workingDir.entryList(QStringList(), QDir::Files);
+        for(QString i : workingDirFiles){
+            if(i == "playlists.txt"){
+                qDebug() << "found playlist file.";
+                foundFile = true;
+            }
+        }
+        firstPlaylistCheck = true;
+    }
+
 	QString readline;
 	QFile playFile(QString::fromStdString(pt));
 	if(playFile.open(QIODevice::ReadWrite)){
@@ -277,7 +275,7 @@ void wave::recentPlaylists(){
 		while(!in.atEnd())
 		{
 			readline = in.readLine();
-			std::string line = readline.toUtf8().constData();	
+			std::string line = readline.toUtf8().constData();
 			// if on windows : line = in.readLine().toLocal8Bit().constData();
 			QString qs = QString::fromStdString(line);
 			playlistPaths << qs;
@@ -285,10 +283,10 @@ void wave::recentPlaylists(){
 			size_t pos = 0;
 			while((pos = line.find(slash)) != std::string::npos){
 				line.erase(0, line.find(slash) + slash.length());
-			}	
+			}
 			qs = QString::fromStdString(line);
 			playlistNames << qs;
-		}	
+		}
 	}
 }
 
@@ -309,14 +307,15 @@ void wave::addPlaylist(QString path){
 	if(found_Path == false) {
 		// Append path string to end of file.
 		QFile pFile(QString::fromStdString(pt));
-		if( pFile.open(QIODevice::ReadWrite) ) {
+		if( pFile.open(QIODevice::ReadWrite | QIODevice::Append) ) {
 			QTextStream out(&pFile);
-			out << path.toUtf8().constData() << "\n";
+			out << path.toUtf8().constData() << Qt::endl;
+			out.flush();
+			pFile.close();
 			qDebug() << "Written to text file.";
 			// Windows conversion
 			// playlistFile << path.toUtf8().constData();
 		}
-		pFile.close();
 	}
 }
 
@@ -350,12 +349,10 @@ void wave::loadPlaylist(int index){
 }
 
 void wave::displayPlaylists(){
-    musicPlayer->restart_Engine();
     recentPlaylists();
 	displayPage = 0;
 	clearDisplay();
 	recentSelection = true;
-	musicPlayer->restart_Engine();
 	int item = displayPage * 6;
 	float rem;
 	if(item == 0){

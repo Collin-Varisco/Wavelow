@@ -14,7 +14,15 @@ MusicPlayer::~MusicPlayer(){
 }
 
 void MusicPlayer::restart_Engine(){
-    engine->stopAllSounds();
+    if(engine){
+	    engine->stopAllSounds();
+    }
+}
+
+void MusicPlayer::dropEngine(){
+    if(engine){
+	engine->drop();
+    }
 }
 
 void MusicPlayer::initializeSound(){

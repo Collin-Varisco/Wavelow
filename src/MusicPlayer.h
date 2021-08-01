@@ -39,6 +39,7 @@ public:
     bool firstPlay = true;
     int songIndex = 0;
 
+    void dropEngine();
     void song_shuffle();
     void changePlaybackSpeed();
     void restart_Engine();
