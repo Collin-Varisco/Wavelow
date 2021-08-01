@@ -26,6 +26,7 @@ private:
 public:
     MusicPlayer();
     virtual ~MusicPlayer();
+    void loadPlugins(QString pluginPath);
     int getLength();
     // Song/Directory information
     QString directoryName;

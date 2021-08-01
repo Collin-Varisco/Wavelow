@@ -13,6 +13,10 @@ MusicPlayer::~MusicPlayer(){
     engine->drop();
 }
 
+void MusicPlayer::loadPlugins(QString pluginPath){
+	engine->loadPlugins(pluginPath.toStdString().c_str());
+}
+
 void MusicPlayer::restart_Engine(){
     if(engine){
 	    engine->stopAllSounds();
