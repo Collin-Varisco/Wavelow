@@ -10,7 +10,7 @@ wave::wave(QFrame *parent)
 	QDir::setCurrent(qApp->applicationDirPath());
 	ui.setupUi(this);
 	musicPlayer = new MusicPlayer();
-	musicPlayer->loadPlugins(qApp->applicationDirPath());	
+	musicPlayer->loadPlugins(qApp->applicationDirPath());
 	ui.SongDisplay->setAlignment(Qt::AlignCenter);
 	recentPlaylists(); // load in saved playlists if possible.
 	connect(ui.recentButton, SIGNAL(clicked()), this, SLOT(displayPlaylists()));
@@ -50,37 +50,44 @@ void wave::quit(){
 void wave::addMusic(){
 	recentSelection = false;
 	QFileDialog dialog;
+	bool validFolder = false;
 	dialog.setFileMode(QFileDialog::Directory);
 	if(dialog.exec()){
-		musicPlayer->directoryName = dialog.directory().absolutePath();
-		QDir dirAll(musicPlayer->directoryName);
-
-		musicPlayer->songs = dirAll.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
-		musicPlayer->currentSong = musicPlayer->songs.at(0);
-		ui.SongDisplay->setText(formatSongTitle(musicPlayer->songs.at(0)));
-		if(musicPlayer->paused == false){
-		    musicPlayer->restart_Engine();
+		QDir dirAll(dialog.directory().absolutePath());
+		QStringList tempSongList = dirAll.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
+		if(tempSongList.size() > 0){
+			validFolder = true;
 		}
-		musicPlayer->initializeSound();
-		musicPlayer->changeVolume();
-		songsLoaded = true;
+		if(validFolder == true){
+			musicPlayer->directoryName = dialog.directory().absolutePath();
+			musicPlayer->songs = dirAll.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
+			musicPlayer->currentSong = musicPlayer->songs.at(0);
+			ui.SongDisplay->setText(formatSongTitle(musicPlayer->songs.at(0)));
+			if(musicPlayer->paused == false){
+			    musicPlayer->restart_Engine();
+			}
+			musicPlayer->initializeSound();
+			resetTick();
+			musicPlayer->changeVolume();
+			songsLoaded = true;
 
-		if(musicPlayer->songs.size() % 6 == 0){
-			qDebug() << "Initializing pages";
-			fullPages = musicPlayer->songs.size() / 6;
-			remainderSongs = 0;
-			qDebug() << "Finished Initializing pages";
-		} else {
-			qDebug() << "Initializing pages";
-			fullPages = musicPlayer->songs.size() / 6;
-			remainderSongs = musicPlayer->songs.size() % 6;
-			qDebug() << "Finished Initializing pages";
+			if(musicPlayer->songs.size() % 6 == 0){
+				fullPages = musicPlayer->songs.size() / 6;
+				remainderSongs = 0;
+			} else {
+				fullPages = musicPlayer->songs.size() / 6;
+				remainderSongs = musicPlayer->songs.size() % 6;
+			}
+			displaySongs();
+
+			// Attempt to add playlist if it isn't in saved file
+			addPlaylist(musicPlayer->directoryName);
+			qDebug() << "Successfully Added Folder.";
 		}
-		displaySongs();
+		else {
+			qDebug() << "Invalid Folder";
+		}
 	}
-	// Attempt to add playlist if it isn't in saved file
-	addPlaylist(musicPlayer->directoryName);
-	qDebug() << "Reached end of addMusic()";
 }
 
 
@@ -135,9 +142,6 @@ void wave::slideVolume(int val){
 
 void wave::displaySongs(){
 	int item = displayPage * 6;
-	qDebug() << "Remainder Songs: " << remainderSongs;
-	qDebug() << "Current Page: " << displayPage;
-	qDebug() << "Full pages: " << fullPages;
 	if(displayPage < fullPages){
 		ui.song_0->setText(formatSongTitle(musicPlayer->songs.at(item + 0)));
 		ui.song_1->setText(formatSongTitle(musicPlayer->songs.at(item + 1)));
@@ -323,16 +327,18 @@ void wave::addPlaylist(QString path){
 
 // load playlist that is clicked on selection screen
 void wave::loadPlaylist(int index){
-	musicPlayer->restart_Engine();
-	musicPlayer->directoryName = playlistPaths.at(index);
-	QDir dirAll(playlistPaths.at(index));
-	musicPlayer->songs = dirAll.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
-	musicPlayer->currentSong = musicPlayer->songs.at(0);
-	ui.SongDisplay->setText(formatSongTitle(musicPlayer->songs.at(0)));
-	musicPlayer->initializeSound();
-	musicPlayer->changeVolume();
-	songsLoaded = true;
-
+	if(playlistPaths.at(index) != musicPlayer->directoryName){
+		musicPlayer->restart_Engine();
+		musicPlayer->directoryName = playlistPaths.at(index);
+		QDir dirAll(playlistPaths.at(index));
+		musicPlayer->songs = dirAll.entryList(QStringList() << "*.mp3" << "*.MP3" << "*.wav" << "*.WAV", QDir::Files);
+		musicPlayer->currentSong = musicPlayer->songs.at(0);
+		ui.SongDisplay->setText(formatSongTitle(musicPlayer->songs.at(0)));
+		musicPlayer->initializeSound();
+		resetTick();
+		musicPlayer->changeVolume();
+		songsLoaded = true;
+	}
 	qDebug() << "Initializing pages";
 	qDebug() << "TOTAL: " << musicPlayer->songs.size();
 	int remainder = musicPlayer->songs.size() % 6;
