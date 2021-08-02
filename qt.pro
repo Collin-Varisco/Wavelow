@@ -8,12 +8,11 @@ TARGET = wavelow
 unix {
     macx {
         LIBS += libs/macosx-gcc/libirrklang.dylib
-	LIBS += libs/macosx-gcc/ikpMP3.dylib
+        LIBS += libs/macosx-gcc/ikpMP3.dylib
     } 
     else {
-        LIBS += ~/.local/bin/ikpFlac.so
-        LIBS += ~/.local/bin/ikpMP3.so
-        LIBS += ~/.local/bin/libIrrKlang.so
+        LIBS += /usr/lib/ikpMP3.so
+        LIBS += /usr/lib/libIrrKlang.so
     }
 }
 

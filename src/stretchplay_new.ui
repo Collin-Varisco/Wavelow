@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Frame</string>
+   <string/>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: black;
@@ -106,22 +106,22 @@ border: 1px solid White;</string>
     <cursorShape>SizeHorCursor</cursorShape>
    </property>
    <property name="styleSheet">
-    <string notr="true">QSlider::groove::horizontal{ 
-		height: 6px; 
-	
+    <string notr="true">QSlider::groove::horizontal{
+		height: 6px;
+
 
 	     border-radius:6px;
 		border: 1px solid white;
- } 
+ }
 
 
-QSlider::handle:horizontal{ 
-		width:  10px; 
-		height: 10px; 
-		margin-top: -20px; 
-		margin-left: 0px; 
-		margin-bottom: -20px; 
-		margin-right: 0px; 
+QSlider::handle:horizontal{
+		width:  10px;
+		height: 10px;
+		margin-top: -20px;
+		margin-left: 0px;
+		margin-bottom: -20px;
+		margin-right: 0px;
 		background: white;
 		border: 1 px white;
 }
@@ -140,7 +140,7 @@ QSlider::sub-page:horizontal{
   <widget class="QFrame" name="Menu">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>4</x>
      <y>35</y>
      <width>131</width>
      <height>155</height>
@@ -154,7 +154,7 @@ QSlider::sub-page:horizontal{
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QGroupBox" name="">
+     <widget class="QGroupBox" name="groupBox">
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QPushButton" name="openFolderButton">
@@ -406,22 +406,22 @@ text-align: left;</string>
     <cursorShape>SizeHorCursor</cursorShape>
    </property>
    <property name="styleSheet">
-    <string notr="true">QSlider::groove::horizontal{ 
-		height: 6px; 
-	
+    <string notr="true">QSlider::groove::horizontal{
+		height: 6px;
+
 
 	     border-radius:6px;
 		border: 1px solid white;
- } 
+ }
 
 
-QSlider::handle:horizontal{ 
-		width:  10px; 
-		height: 10px; 
-		margin-top: -20px; 
-		margin-left: 0px; 
-		margin-bottom: -20px; 
-		margin-right: 0px; 
+QSlider::handle:horizontal{
+		width:  10px;
+		height: 10px;
+		margin-top: -20px;
+		margin-left: 0px;
+		margin-bottom: -20px;
+		margin-right: 0px;
 		background: white;
 		border: 1 px white;
 }
@@ -456,22 +456,22 @@ QSlider::sub-page:horizontal{
     <cursorShape>SizeHorCursor</cursorShape>
    </property>
    <property name="styleSheet">
-    <string notr="true">QSlider::groove::horizontal{ 
-		height: 6px; 
-	
+    <string notr="true">QSlider::groove::horizontal{
+		height: 6px;
+
 
 	     border-radius:6px;
 		border: 1px solid white;
- } 
+ }
 
 
-QSlider::handle:horizontal{ 
-		width:  10px; 
-		height: 10px; 
-		margin-top: -20px; 
-		margin-left: 0px; 
-		margin-bottom: -20px; 
-		margin-right: 0px; 
+QSlider::handle:horizontal{
+		width:  10px;
+		height: 10px;
+		margin-top: -20px;
+		margin-left: 0px;
+		margin-bottom: -20px;
+		margin-right: 0px;
 		background: white;
 		border: 1 px white;
 }
