@@ -39,7 +39,7 @@ For example, I set mine to C:\Qt\Qt5.13.2\5.13.2\msvc2017_64 \
 12.) Edit your environment variables by adding a new System variable called "QtDir" with a value of the path to the bin folder from the \
      same compiler directory used earlier C:\Qt\Qt5.13.2\5.13.2\msvc2017_64\bin \
 13.) In the Wavelow\windows folder, double click the RunAfterBuild.bat file. \
-14.) Run the Wavelow.exe file from the Wavelow\windows\x64\Debug folder or make a shortcut of the .exe file and run that. You can rename the debug folder and add it to C:\Program files (x86)\ if you want to delete everything else. 
+14.) Run https://raw.githubusercontent.com/Collin-Varisco/Wavelow/main/screenshots/linux2-screenshot.png?token=AQZQLW6WLSZR6XPAIXVP33TBCTAJQthe Wavelow.exe file from the Wavelow\windows\x64\Debug folder or make a shortcut of the .exe file and run that. You can rename the debug folder and add it to C:\Program files (x86)\ if you want to delete everything else. 
 
 ![Mac](https://raw.githubusercontent.com/Collin-Varisco/Wavelow/main/screenshots/mac-screenshot.png?token=AQZQLWZFGF6GJ4LV4GTPO5TBCS44U)
-![Linux](https://raw.githubusercontent.com/Collin-Varisco/Wavelow/main/screenshots/linux-screenshot.png?token=AQZQLWYNGNIO7CIZIQKKD3DBCS6XU)
+![Linux](https://raw.githubusercontent.com/Collin-Varisco/Wavelow/main/screenshots/linux2-screenshot.png?token=AQZQLW6WLSZR6XPAIXVP33TBCTAJQ)
