@@ -17,8 +17,8 @@
 5.) $ bash mac.sh \
 6.) $ launch wavelow.app from Wavelow directory or copy wavelow.app to somewhere else like your dock and launch it. 
 
-# Windows \
-###To run already compiled .exe for x64 \
+# Windows 
+To run already compiled .exe for x64 \
 1.) $ git clone https://github.com/collin-varisco/Wavelow.git \
 2.) Open cloned Wavelow folder \
 3.) Open Windows-Full-Build folder \ 
