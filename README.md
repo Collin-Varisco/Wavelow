@@ -1,4 +1,4 @@
-#Linux \
+# Linux
 1.) Install qt5 for your distribution. \
 2.) '$ git clone https://github.com/collin-varisco/Wavelow.git' \
 3.) $ cd Wavelow \
@@ -9,7 +9,7 @@
     You can make a shortcut of this binary if you want to launch it from \
     somewhere else.
 
-#MAC \
+# MAC
 1.) Install Homebrew: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
 2.) brew install qt \
 3.) $ git clone https://github.com/collin-varisco/Wavelow.git \
