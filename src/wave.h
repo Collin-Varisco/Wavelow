@@ -13,16 +13,19 @@ class wave : public QMainWindow
 	public:
 		wave(QFrame *parent = 0);
 		~wave();
+		std::string pt;
 		bool recentSelection = false;
 		bool songsLoaded = false;
 		bool foundFile = false;
-		void addPlaylist(QString path);
+        bool firstPlaylistCheck = false;
+		void addPlaylist(QString path); 
 		QStringList playlistNames;
 		QStringList playlistPaths;
 		float actualValue;
 		void resetTick();
 		void displaySongs();
 		void clearDisplay();
+		QString formatSongTitle(QString title);
 		int displayPage = 0;
 		QTimer *songTimer;
 		bool firstPlay = true;

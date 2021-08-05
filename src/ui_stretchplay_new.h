@@ -63,36 +63,36 @@ public:
     {
         if (PlaybackDisplay->objectName().isEmpty())
             PlaybackDisplay->setObjectName(QString::fromUtf8("PlaybackDisplay"));
-        PlaybackDisplay->resize(640, 486);
+        PlaybackDisplay->resize(645, 486);
         PlaybackDisplay->setStyleSheet(QString::fromUtf8("background-color: black;\n"
 "color: white;"));
         SpeedLabel = new QLabel(PlaybackDisplay);
         SpeedLabel->setObjectName(QString::fromUtf8("SpeedLabel"));
-        SpeedLabel->setGeometry(QRect(40, 420, 111, 22));
+        SpeedLabel->setGeometry(QRect(42, 420, 111, 22));
         playButton = new QPushButton(PlaybackDisplay);
         playButton->setObjectName(QString::fromUtf8("playButton"));
-        playButton->setGeometry(QRect(290, 430, 50, 50));
+        playButton->setGeometry(QRect(292, 430, 50, 50));
         playButton->setCursor(QCursor(Qt::PointingHandCursor));
         playButton->setStyleSheet(QString::fromUtf8("color: White;\n"
 "background-color: black;\n"
 "border: 1px solid White;"));
         previousButton = new QPushButton(PlaybackDisplay);
         previousButton->setObjectName(QString::fromUtf8("previousButton"));
-        previousButton->setGeometry(QRect(220, 430, 50, 50));
+        previousButton->setGeometry(QRect(222, 430, 50, 50));
         previousButton->setCursor(QCursor(Qt::PointingHandCursor));
         previousButton->setStyleSheet(QString::fromUtf8("color: White;\n"
 "background-color: black;\n"
 "border: 1px solid White;"));
         nextButton = new QPushButton(PlaybackDisplay);
         nextButton->setObjectName(QString::fromUtf8("nextButton"));
-        nextButton->setGeometry(QRect(360, 430, 50, 50));
+        nextButton->setGeometry(QRect(362, 430, 50, 50));
         nextButton->setCursor(QCursor(Qt::PointingHandCursor));
         nextButton->setStyleSheet(QString::fromUtf8("color: White;\n"
 "background-color: black;\n"
 "border: 1px solid White;"));
         songSlider = new QSlider(PlaybackDisplay);
         songSlider->setObjectName(QString::fromUtf8("songSlider"));
-        songSlider->setGeometry(QRect(220, 400, 191, 20));
+        songSlider->setGeometry(QRect(222, 400, 191, 20));
         songSlider->setCursor(QCursor(Qt::SizeHorCursor));
         songSlider->setStyleSheet(QString::fromUtf8("QSlider::groove::horizontal{ \n"
 "		height: 6px; \n"
@@ -123,7 +123,7 @@ public:
         songSlider->setOrientation(Qt::Horizontal);
         Menu = new QFrame(PlaybackDisplay);
         Menu->setObjectName(QString::fromUtf8("Menu"));
-        Menu->setGeometry(QRect(0, 35, 131, 155));
+        Menu->setGeometry(QRect(2, 35, 131, 155));
         Menu->setCursor(QCursor(Qt::PointingHandCursor));
         Menu->setStyleSheet(QString::fromUtf8("border: 1px solid white;"));
         verticalLayout = new QVBoxLayout(Menu);
@@ -169,18 +169,18 @@ public:
 
         nextPage = new QPushButton(PlaybackDisplay);
         nextPage->setObjectName(QString::fromUtf8("nextPage"));
-        nextPage->setGeometry(QRect(590, 316, 41, 30));
+        nextPage->setGeometry(QRect(592, 316, 41, 30));
         nextPage->setStyleSheet(QString::fromUtf8("border: 1px solid white;"));
         SongDisplay = new QLabel(PlaybackDisplay);
         SongDisplay->setObjectName(QString::fromUtf8("SongDisplay"));
-        SongDisplay->setGeometry(QRect(0, 360, 641, 22));
+        SongDisplay->setGeometry(QRect(2, 360, 641, 22));
         previousPage = new QPushButton(PlaybackDisplay);
         previousPage->setObjectName(QString::fromUtf8("previousPage"));
-        previousPage->setGeometry(QRect(90, 316, 41, 30));
+        previousPage->setGeometry(QRect(92, 316, 41, 30));
         previousPage->setStyleSheet(QString::fromUtf8("border: 1px solid white;"));
         verticalGroupBox = new QGroupBox(PlaybackDisplay);
         verticalGroupBox->setObjectName(QString::fromUtf8("verticalGroupBox"));
-        verticalGroupBox->setGeometry(QRect(140, 35, 441, 311));
+        verticalGroupBox->setGeometry(QRect(142, 35, 441, 311));
         verticalGroupBox->setStyleSheet(QString::fromUtf8("border: 1px solid white;\n"
 "text-align: left;"));
         verticalLayout_3 = new QVBoxLayout(verticalGroupBox);
@@ -265,10 +265,10 @@ public:
 
         label = new QLabel(PlaybackDisplay);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(0, 1, 641, 31));
+        label->setGeometry(QRect(2, 1, 641, 31));
         SpeedSlider = new QSlider(PlaybackDisplay);
         SpeedSlider->setObjectName(QString::fromUtf8("SpeedSlider"));
-        SpeedSlider->setGeometry(QRect(35, 447, 121, 16));
+        SpeedSlider->setGeometry(QRect(32, 447, 121, 16));
         SpeedSlider->setCursor(QCursor(Qt::SizeHorCursor));
         SpeedSlider->setStyleSheet(QString::fromUtf8("QSlider::groove::horizontal{ \n"
 "		height: 6px; \n"
@@ -301,7 +301,7 @@ public:
         SpeedSlider->setOrientation(Qt::Horizontal);
         volumeSlider = new QSlider(PlaybackDisplay);
         volumeSlider->setObjectName(QString::fromUtf8("volumeSlider"));
-        volumeSlider->setGeometry(QRect(480, 447, 121, 16));
+        volumeSlider->setGeometry(QRect(482, 447, 121, 16));
         volumeSlider->setCursor(QCursor(Qt::SizeHorCursor));
         volumeSlider->setStyleSheet(QString::fromUtf8("QSlider::groove::horizontal{ \n"
 "		height: 6px; \n"
@@ -334,10 +334,10 @@ public:
         volumeSlider->setOrientation(Qt::Horizontal);
         volumeLabel = new QLabel(PlaybackDisplay);
         volumeLabel->setObjectName(QString::fromUtf8("volumeLabel"));
-        volumeLabel->setGeometry(QRect(480, 420, 121, 22));
+        volumeLabel->setGeometry(QRect(482, 420, 121, 22));
         shuffleButton = new QPushButton(PlaybackDisplay);
         shuffleButton->setObjectName(QString::fromUtf8("shuffleButton"));
-        shuffleButton->setGeometry(QRect(50, 390, 81, 24));
+        shuffleButton->setGeometry(QRect(52, 390, 81, 24));
         shuffleButton->setStyleSheet(QString::fromUtf8("border: 1px solid white;"));
 
         retranslateUi(PlaybackDisplay);
@@ -347,16 +347,16 @@ public:
 
     void retranslateUi(QWidget *PlaybackDisplay)
     {
-        PlaybackDisplay->setWindowTitle(QCoreApplication::translate("PlaybackDisplay", "Frame", nullptr));
+        PlaybackDisplay->setWindowTitle(QCoreApplication::translate("PlaybackDisplay", "", nullptr));
         SpeedLabel->setText(QCoreApplication::translate("PlaybackDisplay", "<html><head/><body><p align=\"center\">Speed: 75%</p></body></html>", nullptr));
         playButton->setText(QCoreApplication::translate("PlaybackDisplay", "\342\217\257", nullptr));
         previousButton->setText(QCoreApplication::translate("PlaybackDisplay", "\342\227\200", nullptr));
         nextButton->setText(QCoreApplication::translate("PlaybackDisplay", "\342\226\266", nullptr));
         openFolderButton->setText(QCoreApplication::translate("PlaybackDisplay", "Open", nullptr));
-        recentButton->setText(QCoreApplication::translate("PlaybackDisplay", "Recent", nullptr));
+        recentButton->setText(QCoreApplication::translate("PlaybackDisplay", "Playlists", nullptr));
         exitButton->setText(QCoreApplication::translate("PlaybackDisplay", "Exit", nullptr));
         nextPage->setText(QCoreApplication::translate("PlaybackDisplay", ">", nullptr));
-        SongDisplay->setText(QCoreApplication::translate("PlaybackDisplay", "<html><head/><body><p align=\"center\">Name of the song</p></body></html>", nullptr));
+        SongDisplay->setText(QCoreApplication::translate("PlaybackDisplay", "<html><head/><body><p></p></body></html>", nullptr));
         previousPage->setText(QCoreApplication::translate("PlaybackDisplay", "<", nullptr));
         song_0->setText(QString());
         song_1->setText(QString());

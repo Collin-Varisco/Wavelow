@@ -13,9 +13,20 @@ MusicPlayer::~MusicPlayer(){
     engine->drop();
 }
 
+void MusicPlayer::loadPlugins(QString pluginPath){
+	engine->loadPlugins(pluginPath.toStdString().c_str());
+}
+
 void MusicPlayer::restart_Engine(){
-    engine->drop();
-    engine = createIrrKlangDevice();
+    if(engine){
+	    engine->stopAllSounds();
+    }
+}
+
+void MusicPlayer::dropEngine(){
+    if(engine){
+	engine->drop();
+    }
 }
 
 void MusicPlayer::initializeSound(){
