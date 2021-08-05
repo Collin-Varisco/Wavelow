@@ -1,0 +1,10 @@
+﻿  uic stretchplay_new.ui
+  moc wave.h
+  moc ui_stretchplay_new.h
+   C:\Users\Chris\Wave-Stretch\windows\ui_stretchplay_new.h(0): Note: No relevant classes found. No output generated.
+  MusicPlayer.cpp
+  wave.cpp
+  main.cpp
+  moc_wave.cpp
+  moc_ui_stretchplay_new.cpp
+  windows.vcxproj -> C:\Users\Chris\Wave-Stretch\windows\x64\Debug\windows.exe
