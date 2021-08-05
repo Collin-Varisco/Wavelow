@@ -42,3 +42,4 @@
 
 ![Mac](https://raw.githubusercontent.com/Collin-Varisco/Wavelow/main/screenshots/mac-screenshot.png?token=AQZQLWZFGF6GJ4LV4GTPO5TBCS44U)
 ![Linux](https://raw.githubusercontent.com/Collin-Varisco/Wavelow/main/screenshots/linux2-screenshot.png?token=AQZQLW6WLSZR6XPAIXVP33TBCTAJQ)
+![Windows](https://raw.githubusercontent.com/Collin-Varisco/Wavelow/main/screenshots/windows-screenshot.PNG?token=AQZQLW6LSATIEUVHTNUTGE3BCTDHE)
