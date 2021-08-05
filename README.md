@@ -1,6 +1,6 @@
 # Linux
 1.) Install qt5 for your distribution. \
-2.) '$ git clone https://github.com/collin-varisco/Wavelow.git' \
+2.) `$ git clone https://github.com/collin-varisco/Wavelow.git` \
 3.) $ cd Wavelow \
 4.) $ bash linux-install.sh \
 5.) launch from terminal or launcher with \
