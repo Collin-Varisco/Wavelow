@@ -1,4 +1,7 @@
-# Linux
+# Download and Install on Linux
+[Wavelow v1.0](https://github.com/Collin-Varisco/Wavelow/releases/download/installer/Installerwavelow.run)
+
+# Build on Linux
 1.) Install qt5 for your distribution. \
 2.) `$ git clone https://github.com/collin-varisco/Wavelow.git` \
 3.) `$ cd Wavelow` \
