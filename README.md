@@ -1,5 +1,6 @@
 # Download and Install on Linux
 [Wavelow v1.0](https://github.com/Collin-Varisco/Wavelow/releases/download/installer/Installerwavelow.run)
+# Full Windows Build Inside Repository
 
 # Build on Linux
 1.) Install qt5 for your distribution. \
