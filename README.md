@@ -1,8 +1,13 @@
-# Download and Install on Linux
-[Wavelow v1.0](https://github.com/Collin-Varisco/Wavelow/releases/download/installer/Installerwavelow.run)
-# Full Windows Build Inside Repository
+# Wavelow
 
-# Build on Linux
+- Music player that allows you to slow down songs in real time while maintaining much of the sound quality (up to certain speeds)
+- Works with MP3, WAV, and FLAC files
+
+![](https://raw.githubusercontent.com/Collin-Varisco/Wavelow/main/screenshots/linux2-screenshot.png?token=AQZQLW6WLSZR6XPAIXVP33TBCTAJQ)
+
+# Build Instructions
+---
+### Linux
 1.) Install qt5 for your distribution. \
 2.) `$ git clone https://github.com/collin-varisco/Wavelow.git` \
 3.) `$ cd Wavelow` \
@@ -13,7 +18,7 @@
     You can make a shortcut of this binary if you want to launch it from \
     somewhere else.
 
-# MAC
+### Mac
 1.) Install Homebrew: `$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` \
 2.) `$ brew install qt` \
 3.) `$ git clone https://github.com/collin-varisco/Wavelow.git` \
@@ -21,14 +26,14 @@
 5.) `$ bash mac.sh` \
 6.) $ launch wavelow.app from Wavelow directory or copy wavelow.app to somewhere else like your dock and launch it. 
 
-# Windows 
-### To run already compiled .exe for x64 
+### Windows 
+#### To run already compiled .exe for x64 
 1.) `$ git clone https://github.com/collin-varisco/Wavelow.git` \
 2.) Open cloned Wavelow folder \
 3.) Open Windows-Full-Build folder \ 
 4.) Run wavelow.exe in that folder or make a shortcut of that .exe to place anywhere and run. You can rename the Windows-Full-Build folder and copy it to C:\Program Files (x86)\ if you want to delete everything else.
 
-### To Build Wavelow on Windows
+#### To Build Wavelow on Windows
 1.) Install Visual Studio and install the "Qt VS Tools" add on \
 2.) Install Qt5 on windows. (qt-opensource-windows-x86-5.13.2 worked for me) \
 3.) `$ git clone https://github.com/collin-varisco/Wavelow.git` \
@@ -43,7 +48,3 @@
      same compiler directory used earlier C:\Qt\Qt5.13.2\5.13.2\msvc2017_64\bin \
 12.) In the Wavelow\windows folder, double click the RunAfterBuild.bat file. \
 13.) Run the Wavelow.exe file from the Wavelow\windows\x64\Debug directory or make a shortcut of the .exe file and run that. You can rename the debug folder and add it to C:\Program files (x86)\ if you want to delete everything else. 
-
-![Mac](https://raw.githubusercontent.com/Collin-Varisco/Wavelow/main/screenshots/mac-screenshot.png?token=AQZQLWZFGF6GJ4LV4GTPO5TBCS44U)
-![Linux](https://raw.githubusercontent.com/Collin-Varisco/Wavelow/main/screenshots/linux2-screenshot.png?token=AQZQLW6WLSZR6XPAIXVP33TBCTAJQ)
-![Windows](https://raw.githubusercontent.com/Collin-Varisco/Wavelow/main/screenshots/windows-screenshot.PNG?token=AQZQLW6LSATIEUVHTNUTGE3BCTDHE)
